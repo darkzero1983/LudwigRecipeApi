@@ -156,7 +156,51 @@
     <Compile Include="DataContext\SubCategory.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModels\Category\CategoryData.cs" />
+    <Compile Include="DataModels\Category\CategorySelectData.cs" />
+    <Compile Include="DataModels\Category\ICategoryData.cs" />
+    <Compile Include="DataModels\Category\ICategorySelectData.cs" />
+    <Compile Include="DataModels\Category\ISubCategoryData.cs" />
+    <Compile Include="DataModels\Category\ISubCategorySelectData.cs" />
+    <Compile Include="DataModels\Category\SubCategoryData.cs" />
+    <Compile Include="DataModels\Category\SubCategorySelectData.cs" />
+    <Compile Include="DataModels\HitCount\HitCountData.cs" />
+    <Compile Include="DataModels\HitCount\IHitCountData.cs" />
+    <Compile Include="DataModels\IngredientList\IIngredientListData.cs" />
+    <Compile Include="DataModels\IngredientList\IngredientListData.cs" />
+    <Compile Include="DataModels\Ingredient\IIngredientData.cs" />
+    <Compile Include="DataModels\Ingredient\IngredientData.cs" />
+    <Compile Include="DataModels\Measurement\IMeasurementData.cs" />
+    <Compile Include="DataModels\Measurement\MeasurementData.cs" />
+    <Compile Include="DataModels\Recipe\IRecipeData.cs" />
+    <Compile Include="DataModels\Recipe\IRecipeDetailData.cs" />
+    <Compile Include="DataModels\Recipe\IRecipeOverviewData.cs" />
+    <Compile Include="DataModels\Recipe\RecipeData.cs" />
+    <Compile Include="DataModels\Recipe\RecipeDetailData.cs" />
+    <Compile Include="DataModels\Recipe\RecipeOverviewData.cs" />
+    <Compile Include="DataModels\SeoTag\ISeoTagData.cs" />
+    <Compile Include="DataModels\SeoTag\SeoTagData.cs" />
+    <Compile Include="DataModels\User\IUserData.cs" />
+    <Compile Include="DataModels\User\UserData.cs" />
+    <Compile Include="Helper\IRequestRecipe.cs" />
+    <Compile Include="Helper\RequestRecipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CategoryRepository\CategoryRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository\ICategoryRepository.cs" />
+    <Compile Include="Repositories\HitCountRepositories\HitCountRepository.cs" />
+    <Compile Include="Repositories\HitCountRepositories\IHitCountRepository.cs" />
+    <Compile Include="Repositories\IngredientListRepositories\IIngredientListRepository.cs" />
+    <Compile Include="Repositories\IngredientListRepositories\IngredientListRepository.cs" />
+    <Compile Include="Repositories\IngredientRepository\IIngredientRepository.cs" />
+    <Compile Include="Repositories\IngredientRepository\IngredientRepository.cs" />
+    <Compile Include="Repositories\MeasurementRepository\IMeasurementRepository.cs" />
+    <Compile Include="Repositories\MeasurementRepository\MeasurementRepository.cs" />
+    <Compile Include="Repositories\RecipeRepository\IRecipeRepository.cs" />
+    <Compile Include="Repositories\RecipeRepository\RecipeRepository.cs" />
+    <Compile Include="Repositories\SeoTagRepositories\ISeoTagRepository.cs" />
+    <Compile Include="Repositories\SeoTagRepositories\SeoTagRepository.cs" />
+    <Compile Include="Repositories\UserRepositories\IUserRepository.cs" />
+    <Compile Include="Repositories\UserRepositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LudwigRecipe.Core\LudwigRecipe.Core.csproj">
