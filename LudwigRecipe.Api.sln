@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LudwigRecipe.Api", "LudwigRecipe.Api\LudwigRecipe.Api.csproj", "{3288B20F-CBB1-4E02-9BB8-EF14E49002DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LudwigRecipe.Service", "LudwigRecipe.Service\LudwigRecipe.Service.csproj", "{E09F10F2-15C9-4E4F-B058-105C93D002F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LudwigRecipe.Service", "LudwigRecipe.Service\LudwigRecipe.Service.csproj", "{E09F10F2-15C9-4E4F-B058-105C93D002F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LudwigRecipe.Data", "LudwigRecipe.Data\LudwigRecipe.Data.csproj", "{0885D0F6-F777-466F-A4A4-79E51C3853BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LudwigRecipe.Core", "LudwigRecipe.Core\LudwigRecipe.Core.csproj", "{267B4084-F326-43BB-AAA8-906CFFF53D5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{E09F10F2-15C9-4E4F-B058-105C93D002F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E09F10F2-15C9-4E4F-B058-105C93D002F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E09F10F2-15C9-4E4F-B058-105C93D002F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0885D0F6-F777-466F-A4A4-79E51C3853BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0885D0F6-F777-466F-A4A4-79E51C3853BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0885D0F6-F777-466F-A4A4-79E51C3853BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0885D0F6-F777-466F-A4A4-79E51C3853BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{267B4084-F326-43BB-AAA8-906CFFF53D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{267B4084-F326-43BB-AAA8-906CFFF53D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{267B4084-F326-43BB-AAA8-906CFFF53D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{267B4084-F326-43BB-AAA8-906CFFF53D5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
