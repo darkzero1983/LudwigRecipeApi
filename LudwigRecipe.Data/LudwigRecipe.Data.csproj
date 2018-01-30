@@ -1,7 +1,151 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{954805DC-CA69-4C3C-95DE-78DFB8DA6731}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LudwigRecipe.Data</RootNamespace>
+    <AssemblyName>LudwigRecipe.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataContext\AspNetRole.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\AspNetRoleClaim.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\AspNetUser.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\AspNetUserClaim.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\AspNetUserLogin.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\Category.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\C__EFMigrationsHistory.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\DifficultyLevel.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\HitCount.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\Ingredient.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\IngredientList.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\LudwigRecipeBackend.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LudwigRecipeBackend.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\LudwigRecipeBackend.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\LudwigRecipeBackend.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LudwigRecipeBackend.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\Measurement.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\Recipe.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\SeoTag.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\ShoppingList.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\SubCategory.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LudwigRecipe.Core\LudwigRecipe.Core.csproj">
+      <Project>{a8e2dbfb-8185-44c3-8601-648a9931da70}</Project>
+      <Name>LudwigRecipe.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="DataContext\LudwigRecipeBackend.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LudwigRecipeBackend.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DataContext\LudwigRecipeBackend.edmx.diagram">
+      <DependentUpon>LudwigRecipeBackend.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataContext\LudwigRecipeBackend.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LudwigRecipeBackend.edmx</DependentUpon>
+      <LastGenOutput>LudwigRecipeBackend.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataContext\LudwigRecipeBackend.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LudwigRecipeBackend.edmx</DependentUpon>
+      <LastGenOutput>LudwigRecipeBackend.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9cbaaa4ce79a49cd853dc8a2d0a97f1f" Name="Diagram1">
+        <EntityTypeShape EntityType="LudwigsRecipeModel.C__EFMigrationsHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.AspNetRoleClaim" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.AspNetRole" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.AspNetUser" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.Category" Width="1.5" PointX="3.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.DifficultyLevel" Width="1.5" PointX="3.75" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.HitCount" Width="1.5" PointX="6" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.Ingredient" Width="1.5" PointX="6" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.IngredientList" Width="1.5" PointX="8.25" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.Measurement" Width="1.5" PointX="3.75" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.Recipe" Width="1.5" PointX="6" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.SeoTag" Width="1.5" PointX="8.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.ShoppingList" Width="1.5" PointX="3" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.SubCategory" Width="1.5" PointX="8.25" PointY="13.25" IsExpanded="true" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IdentityRoleClaim_string__IdentityRole_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IdentityUserClaim_string__ApplicationUser_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IdentityUserLogin_string__ApplicationUser_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_HitCount_ApplicationUser_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_ShoppingList_ApplicationUser_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_SubCategory_Category_CategoryId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_Recipe_DifficultyLevel_DifficultyLevelId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_HitCount_Recipe_RecipeId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IngredientList_Ingredient_IngredientId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IngredientList_Measurement_MeasurementId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IngredientList_Recipe_RecipeId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IngredientList_ShoppingList_ShoppingListUserId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_Recipe_Measurement_MeasurementId" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.RecipeToApplicationUser" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.RecipeToCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.RecipeToSeoTag" ManuallyRouted="false" />
+        <AssociationConnector Association="LudwigsRecipeModel.RecipeToSubCategory" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
