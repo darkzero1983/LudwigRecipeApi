@@ -92,30 +92,13 @@
     <Compile Include="Boot\BootLoader.cs" />
     <Compile Include="Boot\DependencyBindingsModule.cs" />
     <Compile Include="Boot\IBootModule.cs" />
-    <Compile Include="Interfaces\Servcies\IRecipeService.cs" />
-    <Compile Include="Models\Category\CategoryEditViewModel.cs" />
-    <Compile Include="Models\Category\CategoryToRecipeViewModel.cs" />
-    <Compile Include="Models\Category\CategoryViewModel.cs" />
-    <Compile Include="Models\Category\SubCategoryToRecipeViewModel.cs" />
-    <Compile Include="Models\Category\SubCategoryViewModel.cs" />
-    <Compile Include="Models\Contact\ContactViewModel.cs" />
-    <Compile Include="Models\HitCount\HitCountViewModel.cs" />
-    <Compile Include="Models\Ingredient\IngredientListItemViewModel.cs" />
-    <Compile Include="Models\Ingredient\IngredientsViewModel.cs" />
-    <Compile Include="Models\Ingredient\IngredientViewModel.cs" />
-    <Compile Include="Models\Measurement\IngredientViewModel.cs" />
-    <Compile Include="Models\Navigation\NavigationGroupViewModel.cs" />
-    <Compile Include="Models\Navigation\NavigationItemViewModel.cs" />
-    <Compile Include="Models\Navigation\NavigationViewModel.cs" />
-    <Compile Include="Models\Navigation\SearchResultRecipeViewModel.cs" />
-    <Compile Include="Models\Navigation\SearchResultViewModel.cs" />
-    <Compile Include="Models\Paging\PagingViewModel.cs" />
-    <Compile Include="Models\Recipe\RecipeDetailViewModel.cs" />
-    <Compile Include="Models\Recipe\RecipeEditViewModel.cs" />
-    <Compile Include="Models\Recipe\RecipeOverviewRecipeViewModel.cs" />
-    <Compile Include="Models\Recipe\RecipeOverviewViewModel.cs" />
-    <Compile Include="Models\SeoTag\SeoTagViewModel.cs" />
-    <Compile Include="Models\User\AuthorViewModel.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\DiagnosticsExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

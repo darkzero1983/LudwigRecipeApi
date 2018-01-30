@@ -1,5 +1,4 @@
-﻿using LudwigRecipe.Core.Interfaces.Servcies;
-using LudwigRecipe.Service.Services;
+﻿using LudwigsRecipe.Service.Services.Recipe;
 using Ninject.Modules;
 
 

@@ -1,5 +1,5 @@
-﻿using LudwigRecipe.Core.Interfaces.Servcies;
-using LudwigRecipe.Core.Models.Recipe;
+﻿using LudwigsRecipe.Service.Models.Recipe;
+using LudwigsRecipe.Service.Services.Recipe;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -21,7 +21,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 		[HttpGet]
 		public RecipeOverviewViewModel Get(int count, int skip, string category, string subCategory)
 		{
-			return _recipeService.LoadRecipeOverview();
+			return _recipeService.LoadTopRecipes(1,true);
 		}
 
 	}
