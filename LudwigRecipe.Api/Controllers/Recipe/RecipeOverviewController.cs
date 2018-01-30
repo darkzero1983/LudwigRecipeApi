@@ -3,7 +3,7 @@ using System.Web.Http;
 
 namespace LudwigRecipe.Api.Api.Recipe
 {
-	[Route("api/Recipe/Overview")]
+	[Route("Recipe/Overview")]
 	public class RecipeOverviewController : ApiController
 	{
 		[HttpGet]
@@ -11,7 +11,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 		{
 			RecipeOverviewViewModel result = new RecipeOverviewViewModel();
 
-			result.Title = "Rezepte von der API";
+			result.title = "Rezepte von der API";
 			return result;
 		}
 
