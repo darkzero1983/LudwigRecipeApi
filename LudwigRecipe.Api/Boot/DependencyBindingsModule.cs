@@ -13,7 +13,6 @@ namespace LudwigRecipe.Api.Boot
 					.InheritedFrom(typeof(IBootModule))
 					.BindSingleInterface()
 			);
-
 		}
 	}
 }
