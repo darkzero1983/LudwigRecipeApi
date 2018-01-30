@@ -5,7 +5,7 @@ namespace LudwigsRecipe.Service.Models.Recipe
 {
 	public class RecipeOverviewViewModel
 	{
-		public string title { get; set; }
+		public string Title { get; set; }
 		public List<RecipeOverviewRecipeViewModel> Recipes { get; set; }
 
 		public PagingViewModel Paging { get; set; }

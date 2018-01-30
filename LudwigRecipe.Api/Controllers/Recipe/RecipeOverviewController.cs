@@ -11,7 +11,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 		{
 			RecipeOverviewViewModel result = new RecipeOverviewViewModel();
 
-			result.title = "Rezepte von der API";
+			result.Title = "Rezepte von der API";
 			return result;
 		}
 
