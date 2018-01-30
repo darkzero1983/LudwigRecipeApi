@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using LudwigRecipe.Core.Interfaces.Servcies;
+using LudwigRecipe.Core.Models.Recipe;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -8,26 +10,20 @@ namespace LudwigRecipe.Api.Api.Recipe
 	[EnableCors(origins: "*", headers: "*", methods: "*")]
 	public class RecipeOverviewController : ApiController
 	{
-		/*
+		private readonly IRecipeService _recipeService;
+
+		public RecipeOverviewController(IRecipeService recipeService)
+		{
+			_recipeService = recipeService;
+		}
+
+
 		[HttpGet]
 		public RecipeOverviewViewModel Get(int count, int skip, string category, string subCategory)
 		{
-			RecipeOverviewViewModel result = new RecipeOverviewViewModel();
-
-			result.Title = "Rezepte von der APIs2";
-			return result;
+			return _recipeService.LoadRecipeOverview();
 		}
 
-		/*
-		[HttpGet]
-		public RecipeOverviewViewModel Get(int? page, string categoryUrl, string subCategoryUrl)
-		{
-			RecipeOverviewViewModel result = new RecipeOverviewViewModel();
-
-			result.Title = "Rezepte von der API";
-			return result;
-		}
-		*/
 	}
 	
 }
