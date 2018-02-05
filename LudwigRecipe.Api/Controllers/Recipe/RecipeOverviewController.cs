@@ -21,7 +21,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 		[HttpGet]
 		public RecipeOverviewViewModel Get(int count, int skip, string category, string subCategory)
 		{
-			return _recipeService.LoadTopRecipes(1,true);
+			return _recipeService.LoadRecipeOverview(count, skip, category, subCategory, true);
 		}
 
 	}

@@ -112,9 +112,6 @@
     <Compile Include="DataContext\Category.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataContext\C__EFMigrationsHistory.cs">
-      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataContext\DifficultyLevel.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
@@ -209,7 +206,6 @@
       <Name>LudwigRecipe.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <EntityDeploy Include="DataContext\LudwigRecipeBackend.edmx">

@@ -6,14 +6,12 @@ namespace LudwigsRecipe.Service.Models.Recipe
 	public class RecipeOverviewViewModel
 	{
 		public string Title { get; set; }
+		public int Count { get; set; }
 		public List<RecipeOverviewRecipeViewModel> Recipes { get; set; }
-
-		public PagingViewModel Paging { get; set; }
 
 		public RecipeOverviewViewModel()
 		{
 			Recipes = new List<RecipeOverviewRecipeViewModel>();
-			Paging = new PagingViewModel();
 		}
 	}
 }

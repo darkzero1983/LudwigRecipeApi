@@ -84,6 +84,25 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			return model;
 		}
 
+		public RecipeOverviewViewModel LoadRecipeOverview(int count, int skip, string category, string subCategory, bool isFriend)
+		{
+			int recipesPerPage = 10;
+			RequestRecipe request = new RequestRecipe()
+			{
+				Top = count,
+				ForPublicWeb = true,
+				IsFriend = isFriend,
+				CategoryUrl = category,
+				SubCategoryUrl = subCategory
+			};
+			int recipeCount = _recipeRepository.LoadOverviewRecipesCount(request);
+			request.Skip = skip;
+
+			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
+
+			return MapRecipeOverviewViewModel(recipes, recipeCount, "Top Rezepte");
+		}
+
 		public RecipeOverviewViewModel LoadTopRecipes(int page, bool isFriend)
 		{
 			int recipesPerPage = 10;
@@ -111,7 +130,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			}
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 
-			return MapRecipeOverviewViewModel(recipes, "Top Rezepte", maxPages, page);
+			return MapRecipeOverviewViewModel(recipes, 0, "Top Rezepte");
 		}
 
 		public RecipeOverviewViewModel LoadRecipesFromCategories(int page, bool isFriend, string url)
@@ -143,7 +162,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 			string name = _categoryRespository.LoadCategoryNameByUrl(url);
-			return MapRecipeOverviewViewModel(recipes, "Rezepte zum Thema " + name, maxPages, page);
+			return MapRecipeOverviewViewModel(recipes, 0, "Rezepte zum Thema " + name);
 		}
 
 		public RecipeOverviewViewModel LoadRecipesFromSubCategories(int page, bool isFriend, string url)
@@ -176,7 +195,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 			string name = _categoryRespository.LoadSubCategoryNameByUrl(url);
-			return MapRecipeOverviewViewModel(recipes, "Rezepte zum Thema " + name, maxPages, page);
+			return MapRecipeOverviewViewModel(recipes, 0, "Rezepte zum Thema " + name);
 		}
 
 		public RecipeOverviewViewModel LoadCMSRecipes()
@@ -190,15 +209,15 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			};
 
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
-			return MapRecipeOverviewViewModel(recipes, "Rezept Übersicht", 1, 1);
+			return MapRecipeOverviewViewModel(recipes, 0, "Rezept Übersicht");
 		}
 
-		private RecipeOverviewViewModel MapRecipeOverviewViewModel(List<IRecipeOverviewData> recipes, string title, int maxPage, int currentPage)
+		private RecipeOverviewViewModel MapRecipeOverviewViewModel(List<IRecipeOverviewData> recipes, int count, string title)
 		{
 			RecipeOverviewViewModel model = new RecipeOverviewViewModel()
 			{
 				Title = title,
-				Paging = new Models.Paging.PagingViewModel() { MaxPage = maxPage, CurrentPage = currentPage }
+				Count = count
 			};
 			model.Title = title;
 			foreach (IRecipeOverviewData recipe in recipes)
@@ -210,7 +229,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					Url = recipe.Url,
 					Description = recipe.Description,
 					PublishDate = recipe.PublishDate.ToString("MM.dd.yyyy"),
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/images/default_teaser_image.png" : recipe.TeaserImageUrl
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/img/default_teaser_image.png" : recipe.TeaserImageUrl
 				});
 			}
 			return model;
@@ -230,7 +249,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					Description = recipe.Description,
 					Content = recipe.Content,
 					PublishDate = recipe.PublishDate,
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/images/default_teaser_image.png" : recipe.TeaserImageUrl,
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/img/default_teaser_image.png" : recipe.TeaserImageUrl,
 					IngredientCount = recipe.IngredientCount,
 					Measurement = new MeasurementViewModel() { Id = recipe.Measurement.Id, Name = recipe.Measurement.Name },
 					PreparationTime = recipe.PreparationTime,
@@ -283,7 +302,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 <ol class=""no-number default-color"">
 	<li><strong>Guten Appetit!</strong></li>
 </ol>",
-					TeaserImageUrl = "/images/default_teaser_image.png"
+					TeaserImageUrl = "/img/default_teaser_image.png"
 				};
 			}
 			IRecipeData recipe = _recipeRepository.LoadRecipe(id);
@@ -300,7 +319,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					PublishMinute = recipe.PublishDate.Minute,
 					IsPublished = recipe.IsPublished,
 					IsOnlyForFriends = recipe.IsOnlyForFriends,
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/images/default_teaser_image.png" : recipe.TeaserImageUrl,
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/img/default_teaser_image.png" : recipe.TeaserImageUrl,
 					IngredientCount = recipe.IngredientCount,
 					Measurement = (recipe.Measurement != null) ? new MeasurementViewModel() { Id = recipe.Measurement.Id, Name = recipe.Measurement.Name } : new MeasurementViewModel(),
 					PreparationTime = recipe.PreparationTime,
@@ -441,7 +460,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 				string imageUrl = "";
 #if DEBUG
-				imageUrl = "http://localhost:8005/media/LudwigsRezepte/" + model.Id + "/teaser/" + newFileName;
+				imageUrl = "/media/media/LudwigsRezepte/" + model.Id + "/teaser/" + newFileName;
 #else
 				imageUrl = "https://ludwigs-rezepte.de/media/LudwigsRezepte/" + model.Id + "/teaser/" + newFileName;
 #endif
