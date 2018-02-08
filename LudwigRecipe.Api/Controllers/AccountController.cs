@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using LudwigRecipe.Api.Models;
 using LudwigRecipe.Api.Providers;
 using LudwigRecipe.Api.Results;
+using System.Text;
 
 namespace LudwigRecipe.Api.Controllers
 {
@@ -37,7 +38,7 @@ namespace LudwigRecipe.Api.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public ApplicationUserManager UserManager
+		public ApplicationUserManager UserManager
         {
             get
             {
