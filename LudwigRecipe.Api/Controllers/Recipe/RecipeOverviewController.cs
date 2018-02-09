@@ -7,7 +7,6 @@ using System.Web.Http.Cors;
 namespace LudwigRecipe.Api.Api.Recipe
 {
 	[Route("Recipe/Overview")]
-	[EnableCors(origins: "*", headers: "*", methods: "*")]
 	public class RecipeOverviewController : ApiController
 	{
 		private readonly IRecipeService _recipeService;
