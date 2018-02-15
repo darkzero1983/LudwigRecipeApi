@@ -6,7 +6,7 @@ using System.Web.Http.Cors;
 
 namespace LudwigRecipe.Api.Api.Recipe
 {
-	[Route("Recipe/Overview")]
+	[Authorize]
 	public class RecipeOverviewController : ApiController
 	{
 		private readonly IRecipeService _recipeService;
@@ -16,10 +16,11 @@ namespace LudwigRecipe.Api.Api.Recipe
 			_recipeService = recipeService;
 		}
 
-
+		[Route("api/Recipe/Overview")]
 		[HttpGet]
-		public RecipeOverviewViewModel Get(int count, int skip, string category, string subCategory)
+		public RecipeOverviewViewModel Overview(int count, int skip, string category, string subCategory)
 		{
+
 			return _recipeService.LoadRecipeOverview(count, skip, category, subCategory, true);
 		}
 
