@@ -1,12 +1,9 @@
 ﻿using LudwigsRecipe.Service.Models.Recipe;
 using LudwigsRecipe.Service.Services.Recipe;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace LudwigRecipe.Api.Api.Recipe
 {
-	[Authorize]
 	public class RecipeOverviewController : ApiController
 	{
 		private readonly IRecipeService _recipeService;
