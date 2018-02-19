@@ -77,7 +77,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 				{
 					Id = recipe.Id,
 					Name = recipe.Name,
-					TeaserImageUrl = recipe.TeaserImageUrl,
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
 					Url = recipe.Url
 				});
 			}
