@@ -37,6 +37,8 @@ namespace LudwigRecipe.Api.Api.Recipe
 			bool isFriend = User.IsInRole("Friend");
 			return _recipeService.SearchRecipes(term, true);
 		}
+
+		
 	}
 	
 }

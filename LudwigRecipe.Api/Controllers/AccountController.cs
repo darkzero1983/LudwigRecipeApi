@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,7 +15,6 @@ using Microsoft.Owin.Security.OAuth;
 using LudwigRecipe.Api.Models;
 using LudwigRecipe.Api.Providers;
 using LudwigRecipe.Api.Results;
-using System.Text;
 
 namespace LudwigRecipe.Api.Controllers
 {

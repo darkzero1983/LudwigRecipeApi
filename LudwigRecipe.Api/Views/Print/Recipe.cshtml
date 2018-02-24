@@ -1,0 +1,104 @@
+﻿@using LudwigsRecipe.Service.Models.Ingredient
+@model LudwigsRecipe.Service.Models.Recipe.RecipeDetailViewModel
+@{
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<style>
+		h1 {
+			color: #C1282D;
+			font-size: 34px;
+			margin-bottom: 15px;
+			font-weight: bold;
+			text-shadow: 1px 1px #D6D6D6;
+		}
+
+		h2 {
+			line-height: 32px;
+			color: #C1282D;
+			font-size: 24px;
+		}
+
+		.default-color {
+			color: #C1282D;
+		}
+
+		.no-number {
+			list-style-type: none;
+		}
+
+		table {
+			width: 100%;
+		}
+
+		.table-striped tbody tr:nth-of-type(odd) {
+			background-color: #f9f9f9;
+		}
+
+		.table th, .table td {
+			padding: 3px;
+			line-height: 1.5;
+			vertical-align: top;
+			border-top: 1px solid #eceeef;
+		}
+
+		.text-left {
+			text-align: left;
+		}
+
+		.text-right {
+			text-align: right;
+		}
+	</style>
+</head>
+<body onload="window.print()">
+	<div style="width:768px;">
+		<h1>@Model.Name</h1>
+		<div style="width:250px;display:inline-block;vertical-align:top;">
+			<h2>Zutaten</h2>
+			<table class="table table-striped recipe-detail-ingredients">
+				<tbody>
+					@foreach (IngredientsViewModel ingredient in Model.Ingredients)
+					{
+						<tr>
+							<td class="text-right" style="white-space: nowrap;">
+								@if (ingredient.Amount > 0)
+								{
+									@Html.DisplayFor(x => ingredient.Amount);
+								}@if (!String.IsNullOrEmpty(ingredient.Measurement))
+								{@Html.Raw(" " + ingredient.Measurement);
+							}
+							</td>
+							<td class="text-left" style="width:100%;">@ingredient.Ingredient</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+			<h2>Rezept Informationen</h2>
+			<table class="table table-striped recipe-detail-ingredients">
+				<tbody>
+					@if (Model.PreparationTime > 0)
+					{
+						<tr>
+							<td class="text-left">Vorbereitungzeit:</td>
+							<td class="text-right">@Html.DisplayFor(x => x.PreparationTime) Min</td>
+						</tr>
+					}
+					@if (Model.WaitingTime > 0)
+					{
+						<tr>
+							<td class="text-left">Zubereitungszeit:</td>
+							<td class="text-right">@Html.DisplayFor(x => x.WaitingTime) Min</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+		<div style="width:514px;display:inline-block;vertical-align:top;">
+			@Html.Raw(Model.Content)
+		</div>
+	</div>
+</body>
+</html>
