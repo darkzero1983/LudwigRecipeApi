@@ -259,6 +259,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Boot\NinjectBootStrapper.cs" />
     <Compile Include="Controllers\PrintController.cs" />
+    <Compile Include="Controllers\CmsController.cs" />
     <Compile Include="Controllers\RecipeController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />

@@ -130,7 +130,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			}
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 
-			return MapRecipeOverviewViewModel(recipes, 0, "Top Rezepte");
+			return MapRecipeOverviewViewModel(recipes, recipeCount, "Top Rezepte");
 		}
 
 		public RecipeOverviewViewModel LoadRecipesFromCategories(int page, bool isFriend, string url)
@@ -162,7 +162,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 			string name = _categoryRespository.LoadCategoryNameByUrl(url);
-			return MapRecipeOverviewViewModel(recipes, 0, "Rezepte zum Thema " + name);
+			return MapRecipeOverviewViewModel(recipes, recipeCount, "Rezepte zum Thema " + name);
 		}
 
 		public RecipeOverviewViewModel LoadRecipesFromSubCategories(int page, bool isFriend, string url)
@@ -195,21 +195,21 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 			string name = _categoryRespository.LoadSubCategoryNameByUrl(url);
-			return MapRecipeOverviewViewModel(recipes, 0, "Rezepte zum Thema " + name);
+			return MapRecipeOverviewViewModel(recipes, recipeCount, "Rezepte zum Thema " + name);
 		}
 
-		public RecipeOverviewViewModel LoadCMSRecipes()
+		public RecipeOverviewViewModel LoadCMSRecipes(int count, int skip)
 		{
 			RequestRecipe request = new RequestRecipe()
 			{
-				Top = 20,
-				Skip = 0,
+				Top = count,
+				Skip = skip,
 				ForPublicWeb = false,
 				IsFriend = true
 			};
-
+			int recipeCount = _recipeRepository.LoadOverviewRecipesCount(request);
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
-			return MapRecipeOverviewViewModel(recipes, 0, "Rezept Übersicht");
+			return MapRecipeOverviewViewModel(recipes, recipeCount, "Rezept Übersicht");
 		}
 
 		private RecipeOverviewViewModel MapRecipeOverviewViewModel(List<IRecipeOverviewData> recipes, int count, string title)

@@ -10,7 +10,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 		RecipeOverviewViewModel LoadTopRecipes(int page, bool isFriend);
 		RecipeOverviewViewModel LoadRecipesFromCategories(int page, bool isFriend, string url);
 		RecipeOverviewViewModel LoadRecipesFromSubCategories(int page, bool isFriend, string url);
-		RecipeOverviewViewModel LoadCMSRecipes();
+		RecipeOverviewViewModel LoadCMSRecipes(int count, int skip);
 		RecipeDetailViewModel LoadRecipe(int id, bool isFriend);
 
 		RecipeEditViewModel LoadRecipeEditViewModel(int id);
