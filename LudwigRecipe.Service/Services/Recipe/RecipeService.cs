@@ -338,61 +338,69 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					{
 						Id = ingredientListData.Id,
 						Amount = ingredientListData.Amount,
-						IngredientId = ingredientListData.IngredientId,
-						MeasurementId = ingredientListData.MeasurementId
+						IngredientName = ingredientListData.IngredientName,
+						MeasurementName = ingredientListData.MeasurementName
 					});
 				}
 			}
 			#endregion
 
-			#region Authors
-
+			#region Authors	
+			
 			List<IUserData> authors = _userRepository.LoadAuthorsFromRecipe(model.Id);
-			foreach (IUserData author in authors)
-			{
-				model.Authors.Add(new AuthorViewModel()
+			if(authors != null)
+			{ 
+				foreach (IUserData author in authors)
 				{
-					Id = author.Id,
-					Name = author.Name
-				});
+					model.Authors.Add(new AuthorViewModel()
+					{
+						Id = author.Id,
+						Name = author.Name
+					});
+				}
 			}
 
 			#endregion
 
 			#region SeoTags
 			List<ISeoTagData> seoTags = _seoTagRepository.LoadSeoTagsFromRecipe(model.Id);
-			foreach (ISeoTagData seoTag in seoTags)
+			if(seoTags != null)
 			{
-				model.SeoTags.Add(new SeoTagViewModel()
+				foreach (ISeoTagData seoTag in seoTags)
 				{
-					Id = seoTag.Id,
-					Name = seoTag.Name
-				});
+					model.SeoTags.Add(new SeoTagViewModel()
+					{
+						Id = seoTag.Id,
+						Name = seoTag.Name
+					});
+				}
 			}
 			#endregion
 
 			#region Categories
 			List<ICategorySelectData> categoryDatas = _categoryRespository.LoadCategoriesForRecipe(model.Id);
-
-			foreach (ICategorySelectData categoryData in categoryDatas)
-			{
-				List<SubCategoryToRecipeViewModel> subCategories = new List<SubCategoryToRecipeViewModel>();
-				foreach (ISubCategorySelectData subCategoryData in categoryData.SubCategoryDatas)
+			if(categoryDatas != null)
+			{ 
+				foreach (ICategorySelectData categoryData in categoryDatas)
 				{
-					subCategories.Add(new SubCategoryToRecipeViewModel()
+					List<SubCategoryToRecipeViewModel> subCategories = new List<SubCategoryToRecipeViewModel>();
+					foreach (ISubCategorySelectData subCategoryData in categoryData.SubCategoryDatas)
 					{
-						Id = subCategoryData.Id,
-						Name = subCategoryData.Name,
-						IsSelected = subCategoryData.IsSelected
+						subCategories.Add(new SubCategoryToRecipeViewModel()
+						{
+							Id = subCategoryData.Id,
+							Name = subCategoryData.Name,
+							IsSelected = subCategoryData.IsSelected
+						});
+					}
+					model.Categories.Add(new CategoryToRecipeViewModel()
+					{
+						Id = categoryData.Id,
+						Name = categoryData.Name,
+						IsSelected = categoryData.IsSelected,
+						SubCategories = subCategories
 					});
 				}
-				model.Categories.Add(new CategoryToRecipeViewModel()
-				{
-					Id = categoryData.Id,
-					Name = categoryData.Name,
-					IsSelected = categoryData.IsSelected,
-					SubCategories = subCategories
-				});
 			}
 			#endregion
 
@@ -475,18 +483,15 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 				List<int> IngredientListIds = new List<int>();
 				int ingredientListOrder = 0;
+				int measurementId;
+				int ingredientId;
 				foreach (IngredientListItemViewModel ingredientListItemViewModel in model.IngredientList)
 				{
-					if (ingredientListItemViewModel.MeasurementId == 0)
-					{
-						ingredientListItemViewModel.MeasurementId = _measurementRepository.FindOrAddMeasurement(ingredientListItemViewModel.MeasurementName);
-					}
-					if (ingredientListItemViewModel.IngredientId == 0)
-					{
-						ingredientListItemViewModel.IngredientId = _ingredientRepository.FindOrAddIngredient(ingredientListItemViewModel.IngredientName);
-					}
+					measurementId = _measurementRepository.FindOrAddMeasurement(ingredientListItemViewModel.MeasurementName);
+					ingredientId = _ingredientRepository.FindOrAddIngredient(ingredientListItemViewModel.IngredientName);
+				
 
-					if (ingredientListItemViewModel.MeasurementId != 0 && ingredientListItemViewModel.IngredientId != 0)
+					if (measurementId != 0 && ingredientId != 0)
 					{
 						ingredientListOrder = ingredientListOrder + 1;
 						IngredientListIds.Add(_ingredientListRepository.AddOrUpdateIngredientListFromRecipe(new IngredientListData()
@@ -494,8 +499,8 @@ namespace LudwigsRecipe.Service.Services.Recipe
 							Id = ingredientListItemViewModel.Id,
 							Amount = ingredientListItemViewModel.Amount,
 							SortOrder = ingredientListOrder,
-							IngredientId = ingredientListItemViewModel.IngredientId,
-							MeasurementId = ingredientListItemViewModel.MeasurementId,
+							IngredientId = ingredientId,
+							MeasurementId = measurementId,
 							RecipeId = model.Id
 						}));
 					}
