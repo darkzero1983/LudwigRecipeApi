@@ -21,7 +21,7 @@ namespace LudwigsRecipe.Service.Models.Recipe
 		public int PublishMinute { get; set; }
 		public string TeaserImageUrl { get; set; }
 		public Decimal? IngredientCount { get; set; }
-		public MeasurementViewModel Measurement { get; set; }
+		public string Measurement { get; set; }
 		public List<IngredientListItemViewModel> IngredientList { get; set; }
 		public List<AuthorViewModel> Authors { get; set; }
 		public List<SeoTagViewModel> SeoTags { get; set; }
@@ -34,7 +34,6 @@ namespace LudwigsRecipe.Service.Models.Recipe
 			Authors = new List<AuthorViewModel>();
 			SeoTags = new List<SeoTagViewModel>();
 			Categories = new List<CategoryToRecipeViewModel>();
-			Measurement = new MeasurementViewModel();
 		}
 	}
 }

@@ -18,5 +18,6 @@ namespace LudwigsRecipe.Service.Services.Recipe
 		void SaveRecipeEditViewModel(RecipeEditViewModel model);
 
 		void DeleteRecipe(int id);
+		
 	}
 }

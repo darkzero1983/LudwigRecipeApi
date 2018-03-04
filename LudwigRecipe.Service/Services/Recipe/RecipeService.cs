@@ -321,7 +321,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					IsOnlyForFriends = recipe.IsOnlyForFriends,
 					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
 					IngredientCount = recipe.IngredientCount,
-					Measurement = (recipe.Measurement != null) ? new MeasurementViewModel() { Id = recipe.Measurement.Id, Name = recipe.Measurement.Name } : new MeasurementViewModel(),
+					Measurement = (recipe.Measurement != null) ? recipe.Measurement.Name : "",
 					PreparationTime = recipe.PreparationTime,
 					WaitingTime = recipe.WaitingTime
 				};
@@ -410,10 +410,8 @@ namespace LudwigsRecipe.Service.Services.Recipe
 		public void SaveRecipeEditViewModel(RecipeEditViewModel model)
 		{
 			#region Recipe
-			if (model.Measurement.Id == 0)
-			{
-				model.Measurement.Id = _measurementRepository.FindOrAddMeasurement(model.Measurement.Name ?? "");
-			}
+	
+			int measurementRecipeId = _measurementRepository.FindOrAddMeasurement(model.Measurement);
 
 			IRecipeData recipeData = new RecipeData()
 			{
@@ -426,7 +424,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 				Url = model.Name.BuildUrl(),
 				PublishDate = ConvertPublishDate(model.PublishDate, model.PublishHour, model.PublishMinute),
 				IngredientCount = model.IngredientCount,
-				Measurement = new MeasurementData() { Id = model.Measurement.Id, Name = model.Measurement.Name },
+				Measurement = new MeasurementData() { Id = measurementRecipeId, Name = model.Measurement },
 				PreparationTime = model.PreparationTime,
 				WaitingTime = model.WaitingTime
 			};
