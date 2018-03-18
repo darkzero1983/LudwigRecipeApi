@@ -21,7 +21,6 @@ namespace LudwigRecipe.Data.DataContext
         public string Url { get; set; }
         public string UserId { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
         public virtual Recipe Recipe { get; set; }
     }
 }

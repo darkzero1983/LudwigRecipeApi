@@ -15,10 +15,10 @@ namespace LudwigRecipe.Data.DataContext
     public partial class IngredientList
     {
         public int Id { get; set; }
-        public decimal Amount { get; set; }
-        public Nullable<int> IngredientId { get; set; }
+        public Nullable<decimal> Amount { get; set; }
+        public int IngredientId { get; set; }
         public Nullable<int> MeasurementId { get; set; }
-        public Nullable<int> RecipeId { get; set; }
+        public int RecipeId { get; set; }
         public string ShoppingListUserId { get; set; }
         public int SortOrder { get; set; }
     

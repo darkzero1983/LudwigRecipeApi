@@ -19,7 +19,7 @@ namespace LudwigRecipe.Data.DataContext
         {
             this.HitCounts = new HashSet<HitCount>();
             this.IngredientLists = new HashSet<IngredientList>();
-            this.AspNetUsers = new HashSet<AspNetUser>();
+            this.RecipeToApplicationUsers = new HashSet<RecipeToApplicationUser>();
             this.Categories = new HashSet<Category>();
             this.SeoTags = new HashSet<SeoTag>();
             this.SubCategories = new HashSet<SubCategory>();
@@ -48,7 +48,7 @@ namespace LudwigRecipe.Data.DataContext
         public virtual ICollection<IngredientList> IngredientLists { get; set; }
         public virtual Measurement Measurement { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+        public virtual ICollection<RecipeToApplicationUser> RecipeToApplicationUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

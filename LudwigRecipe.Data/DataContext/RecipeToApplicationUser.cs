@@ -12,13 +12,11 @@ namespace LudwigRecipe.Data.DataContext
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetRoleClaim
+    public partial class RecipeToApplicationUser
     {
-        public int Id { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
-        public string RoleId { get; set; }
+        public int RecipeId { get; set; }
+        public string ApplicationUserId { get; set; }
     
-        public virtual AspNetRole AspNetRole { get; set; }
+        public virtual Recipe Recipe { get; set; }
     }
 }

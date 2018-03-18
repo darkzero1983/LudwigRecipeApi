@@ -5,71 +5,56 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="LudwigsRecipeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="AspNetRoleClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar(max)" />
-          <Property Name="ClaimValue" Type="nvarchar(max)" />
-          <Property Name="RoleId" Type="nvarchar" MaxLength="450" Nullable="false" />
-        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
-          <Property Name="Name" Type="nvarchar" MaxLength="256" />
-          <Property Name="NormalizedName" Type="nvarchar" MaxLength="256" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ClaimType" Type="nvarchar(max)" />
           <Property Name="ClaimValue" Type="nvarchar(max)" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserLogins">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ProviderKey" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ProviderDisplayName" Type="nvarchar(max)" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
             <PropertyRef Name="UserId" />
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="RoleId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-          <Property Name="AutorDisplayName" Type="nvarchar(max)" />
-          <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
           <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-          <Property Name="LockoutEnd" Type="datetimeoffset" Precision="7" />
-          <Property Name="NormalizedEmail" Type="nvarchar" MaxLength="256" />
-          <Property Name="NormalizedUserName" Type="nvarchar" MaxLength="256" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
           <Property Name="PhoneNumber" Type="nvarchar(max)" />
           <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-          <Property Name="SecurityStamp" Type="nvarchar(max)" />
           <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -111,10 +96,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="IngredientId" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IngredientId" Type="int" Nullable="false" />
           <Property Name="MeasurementId" Type="int" />
-          <Property Name="RecipeId" Type="int" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
           <Property Name="ShoppingListUserId" Type="nvarchar" MaxLength="450" />
           <Property Name="SortOrder" Type="int" Nullable="false" />
         </EntityType>
@@ -202,14 +187,58 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Url" Type="nvarchar(max)" />
         </EntityType>
-        <Association Name="FK_HitCount_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="HitCount" Type="Self.HitCount" Multiplicity="*" />
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="HitCount">
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -226,78 +255,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_IdentityRoleClaim&lt;string&gt;_IdentityRole_RoleId">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetRoleClaims" Type="Self.AspNetRoleClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetRoleClaims">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdentityUserClaim&lt;string&gt;_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdentityUserLogin&lt;string&gt;_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdentityUserRole&lt;string&gt;_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdentityUserRole&lt;string&gt;_IdentityRole_RoleId">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_IngredientList_Ingredient_IngredientId">
-          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
           <End Role="IngredientList" Type="Self.IngredientList" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ingredient">
@@ -321,7 +280,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_IngredientList_Recipe_RecipeId">
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
           <End Role="IngredientList" Type="Self.IngredientList" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Recipe">
@@ -365,20 +324,6 @@
             </Principal>
             <Dependent Role="Recipe">
               <PropertyRef Name="MeasurementId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RecipeToApplicationUser_ApplicationUser_ApplicationUserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="RecipeToApplicationUser" Type="Self.RecipeToApplicationUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="RecipeToApplicationUser">
-              <PropertyRef Name="ApplicationUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -480,20 +425,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ShoppingList_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ShoppingList" Type="Self.ShoppingList" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ShoppingList">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SubCategory_Category_CategoryId">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
@@ -507,7 +438,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="LudwigsRecipeModelStoreContainer">
-          <EntitySet Name="AspNetRoleClaims" EntityType="Self.AspNetRoleClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -527,33 +457,25 @@
           <EntitySet Name="SeoTag" EntityType="Self.SeoTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShoppingList" EntityType="Self.ShoppingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_HitCount_ApplicationUser_UserId" Association="Self.FK_HitCount_ApplicationUser_UserId">
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="HitCount" EntitySet="HitCount" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_HitCount_Recipe_RecipeId" Association="Self.FK_HitCount_Recipe_RecipeId">
             <End Role="Recipe" EntitySet="Recipe" />
             <End Role="HitCount" EntitySet="HitCount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdentityRoleClaim&lt;string&gt;_IdentityRole_RoleId" Association="Self.FK_IdentityRoleClaim&lt;string&gt;_IdentityRole_RoleId">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdentityUserClaim&lt;string&gt;_ApplicationUser_UserId" Association="Self.FK_IdentityUserClaim&lt;string&gt;_ApplicationUser_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdentityUserLogin&lt;string&gt;_ApplicationUser_UserId" Association="Self.FK_IdentityUserLogin&lt;string&gt;_ApplicationUser_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdentityUserRole&lt;string&gt;_ApplicationUser_UserId" Association="Self.FK_IdentityUserRole&lt;string&gt;_ApplicationUser_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdentityUserRole&lt;string&gt;_IdentityRole_RoleId" Association="Self.FK_IdentityUserRole&lt;string&gt;_IdentityRole_RoleId">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_IngredientList_Ingredient_IngredientId" Association="Self.FK_IngredientList_Ingredient_IngredientId">
             <End Role="Ingredient" EntitySet="Ingredient" />
@@ -578,10 +500,6 @@
           <AssociationSet Name="FK_Recipe_Measurement_MeasurementId" Association="Self.FK_Recipe_Measurement_MeasurementId">
             <End Role="Measurement" EntitySet="Measurement" />
             <End Role="Recipe" EntitySet="Recipe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RecipeToApplicationUser_ApplicationUser_ApplicationUserId" Association="Self.FK_RecipeToApplicationUser_ApplicationUser_ApplicationUserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="RecipeToApplicationUser" EntitySet="RecipeToApplicationUser" />
           </AssociationSet>
           <AssociationSet Name="FK_RecipeToApplicationUser_Recipe_RecipeId" Association="Self.FK_RecipeToApplicationUser_Recipe_RecipeId">
             <End Role="Recipe" EntitySet="Recipe" />
@@ -611,10 +529,6 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
             <End Role="RecipeToSubCategory" EntitySet="RecipeToSubCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK_ShoppingList_ApplicationUser_UserId" Association="Self.FK_ShoppingList_ApplicationUser_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="ShoppingList" EntitySet="ShoppingList" />
-          </AssociationSet>
           <AssociationSet Name="FK_SubCategory_Category_CategoryId" Association="Self.FK_SubCategory_Category_CategoryId">
             <End Role="Category" EntitySet="Category" />
             <End Role="SubCategory" EntitySet="SubCategory" />
@@ -625,25 +539,12 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LudwigsRecipeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AspNetRoleClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RoleId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetRole" Relationship="Self.FK_IdentityRoleClaim_string__IdentityRole_RoleId" FromRole="AspNetRoleClaims" ToRole="AspNetRoles" />
-        </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ConcurrencyStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="NormalizedName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetRoleClaims" Relationship="Self.FK_IdentityRoleClaim_string__IdentityRole_RoleId" FromRole="AspNetRoles" ToRole="AspNetRoleClaims" />
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUserClaim">
@@ -651,48 +552,41 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_IdentityUserClaim_string__ApplicationUser_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUserLogin">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderDisplayName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_IdentityUserLogin_string__ApplicationUser_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="AutorDisplayName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ConcurrencyStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEnd" Type="DateTimeOffset" Precision="7" />
-          <Property Name="NormalizedEmail" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="NormalizedUserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_IdentityUserClaim_string__ApplicationUser_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_IdentityUserLogin_string__ApplicationUser_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="HitCounts" Relationship="Self.FK_HitCount_ApplicationUser_UserId" FromRole="AspNetUsers" ToRole="HitCount" />
-          <NavigationProperty Name="ShoppingList" Relationship="Self.FK_ShoppingList_ApplicationUser_UserId" FromRole="AspNetUsers" ToRole="ShoppingList" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <NavigationProperty Name="Recipes" Relationship="Self.RecipeToApplicationUser" FromRole="AspNetUsers" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -724,7 +618,6 @@
           <Property Name="RecipeId" Type="Int32" />
           <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_HitCount_ApplicationUser_UserId" FromRole="HitCount" ToRole="AspNetUsers" />
           <NavigationProperty Name="Recipe" Relationship="Self.FK_HitCount_Recipe_RecipeId" FromRole="HitCount" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="Ingredient">
@@ -740,10 +633,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="IngredientId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IngredientId" Type="Int32" Nullable="false" />
           <Property Name="MeasurementId" Type="Int32" />
-          <Property Name="RecipeId" Type="Int32" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
           <Property Name="ShoppingListUserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="SortOrder" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Ingredient" Relationship="Self.FK_IngredientList_Ingredient_IngredientId" FromRole="IngredientList" ToRole="Ingredient" />
@@ -783,10 +676,19 @@
           <NavigationProperty Name="HitCounts" Relationship="Self.FK_HitCount_Recipe_RecipeId" FromRole="Recipe" ToRole="HitCount" />
           <NavigationProperty Name="IngredientLists" Relationship="Self.FK_IngredientList_Recipe_RecipeId" FromRole="Recipe" ToRole="IngredientList" />
           <NavigationProperty Name="Measurement" Relationship="Self.FK_Recipe_Measurement_MeasurementId" FromRole="Recipe" ToRole="Measurement" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.RecipeToApplicationUser" FromRole="Recipe" ToRole="AspNetUsers" />
+          <NavigationProperty Name="RecipeToApplicationUsers" Relationship="Self.FK_RecipeToApplicationUser_Recipe_RecipeId" FromRole="Recipe" ToRole="RecipeToApplicationUser" />
           <NavigationProperty Name="Categories" Relationship="Self.RecipeToCategory" FromRole="Recipe" ToRole="Category" />
           <NavigationProperty Name="SeoTags" Relationship="Self.RecipeToSeoTag" FromRole="Recipe" ToRole="SeoTag" />
           <NavigationProperty Name="SubCategories" Relationship="Self.RecipeToSubCategory" FromRole="Recipe" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="RecipeToApplicationUser">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+            <PropertyRef Name="ApplicationUserId" />
+          </Key>
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationUserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK_RecipeToApplicationUser_Recipe_RecipeId" FromRole="RecipeToApplicationUser" ToRole="Recipe" />
         </EntityType>
         <EntityType Name="SeoTag">
           <Key>
@@ -803,7 +705,6 @@
           <Property Name="UserId" Type="String" MaxLength="450" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_ShoppingList_ApplicationUser_UserId" FromRole="ShoppingList" ToRole="AspNetUsers" />
           <NavigationProperty Name="IngredientLists" Relationship="Self.FK_IngredientList_ShoppingList_ShoppingListUserId" FromRole="ShoppingList" ToRole="IngredientList" />
         </EntityType>
         <EntityType Name="SubCategory">
@@ -818,21 +719,7 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_SubCategory_Category_CategoryId" FromRole="SubCategory" ToRole="Category" />
           <NavigationProperty Name="Recipes" Relationship="Self.RecipeToSubCategory" FromRole="SubCategory" ToRole="Recipe" />
         </EntityType>
-        <Association Name="FK_IdentityRoleClaim_string__IdentityRole_RoleId">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetRoleClaims" Type="Self.AspNetRoleClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetRoleClaims">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IdentityUserClaim_string__ApplicationUser_UserId">
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -846,7 +733,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_IdentityUserLogin_string__ApplicationUser_UserId">
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -856,32 +743,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HitCount_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-          <End Role="HitCount" Type="Self.HitCount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="HitCount">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ShoppingList_ApplicationUser_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ShoppingList" Type="Self.ShoppingList" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ShoppingList">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -923,7 +784,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_IngredientList_Ingredient_IngredientId">
-          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
           <End Role="IngredientList" Type="Self.IngredientList" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ingredient">
@@ -947,7 +808,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_IngredientList_Recipe_RecipeId">
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="0..1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
           <End Role="IngredientList" Type="Self.IngredientList" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Recipe">
@@ -982,13 +843,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+        <Association Name="FK_RecipeToApplicationUser_Recipe_RecipeId">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecipeToApplicationUser" Type="Self.RecipeToApplicationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeToApplicationUser">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <Association Name="RecipeToApplicationUser">
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
-          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
         </Association>
         <Association Name="RecipeToCategory">
           <End Role="Category" Type="Self.Category" Multiplicity="*" />
@@ -1003,7 +874,6 @@
           <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
         </Association>
         <EntityContainer Name="LudwigRecipeContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoleClaims" EntityType="Self.AspNetRoleClaim" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
@@ -1015,28 +885,17 @@
           <EntitySet Name="IngredientLists" EntityType="Self.IngredientList" />
           <EntitySet Name="Measurements" EntityType="Self.Measurement" />
           <EntitySet Name="Recipes" EntityType="Self.Recipe" />
+          <EntitySet Name="RecipeToApplicationUsers" EntityType="Self.RecipeToApplicationUser" />
           <EntitySet Name="SeoTags" EntityType="Self.SeoTag" />
           <EntitySet Name="ShoppingLists" EntityType="Self.ShoppingList" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
-          <AssociationSet Name="FK_IdentityRoleClaim_string__IdentityRole_RoleId" Association="Self.FK_IdentityRoleClaim_string__IdentityRole_RoleId">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IdentityUserClaim_string__ApplicationUser_UserId" Association="Self.FK_IdentityUserClaim_string__ApplicationUser_UserId">
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
           </AssociationSet>
-          <AssociationSet Name="FK_IdentityUserLogin_string__ApplicationUser_UserId" Association="Self.FK_IdentityUserLogin_string__ApplicationUser_UserId">
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HitCount_ApplicationUser_UserId" Association="Self.FK_HitCount_ApplicationUser_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="HitCount" EntitySet="HitCounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ShoppingList_ApplicationUser_UserId" Association="Self.FK_ShoppingList_ApplicationUser_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="ShoppingList" EntitySet="ShoppingLists" />
           </AssociationSet>
           <AssociationSet Name="FK_SubCategory_Category_CategoryId" Association="Self.FK_SubCategory_Category_CategoryId">
             <End Role="Category" EntitySet="Categories" />
@@ -1070,13 +929,13 @@
             <End Role="Measurement" EntitySet="Measurements" />
             <End Role="Recipe" EntitySet="Recipes" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-          </AssociationSet>
-          <AssociationSet Name="RecipeToApplicationUser" Association="Self.RecipeToApplicationUser">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          <AssociationSet Name="FK_RecipeToApplicationUser_Recipe_RecipeId" Association="Self.FK_RecipeToApplicationUser_Recipe_RecipeId">
             <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="RecipeToApplicationUser" EntitySet="RecipeToApplicationUsers" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <AssociationSet Name="RecipeToCategory" Association="Self.RecipeToCategory">
             <End Role="Category" EntitySet="Categories" />
@@ -1097,23 +956,11 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LudwigsRecipeModelStoreContainer" CdmEntityContainer="LudwigRecipeContext">
-          <EntitySetMapping Name="AspNetRoleClaims">
-            <EntityTypeMapping TypeName="LudwigsRecipeModel.AspNetRoleClaim">
-              <MappingFragment StoreEntitySet="AspNetRoleClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="LudwigsRecipeModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="NormalizedName" ColumnName="NormalizedName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1121,9 +968,9 @@
             <EntityTypeMapping TypeName="LudwigsRecipeModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
                 <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1132,7 +979,6 @@
               <MappingFragment StoreEntitySet="AspNetUserLogins">
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="ProviderDisplayName" ColumnName="ProviderDisplayName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1141,20 +987,16 @@
             <EntityTypeMapping TypeName="LudwigsRecipeModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="AutorDisplayName" ColumnName="AutorDisplayName" />
-                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEnd" ColumnName="LockoutEnd" />
-                <ScalarProperty Name="NormalizedEmail" ColumnName="NormalizedEmail" />
-                <ScalarProperty Name="NormalizedUserName" ColumnName="NormalizedUserName" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
                 <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1240,6 +1082,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RecipeToApplicationUsers">
+            <EntityTypeMapping TypeName="LudwigsRecipeModel.RecipeToApplicationUser">
+              <MappingFragment StoreEntitySet="RecipeToApplicationUser">
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SeoTags">
             <EntityTypeMapping TypeName="LudwigsRecipeModel.SeoTag">
               <MappingFragment StoreEntitySet="SeoTag">
@@ -1269,19 +1119,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="LudwigsRecipeModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="RecipeToApplicationUser" TypeName="LudwigsRecipeModel.RecipeToApplicationUser" StoreEntitySet="RecipeToApplicationUser">
             <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="ApplicationUserId" />
-            </EndProperty>
-            <EndProperty Name="Recipe">
-              <ScalarProperty Name="Id" ColumnName="RecipeId" />
+              <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="RecipeToCategory" TypeName="LudwigsRecipeModel.RecipeToCategory" StoreEntitySet="RecipeToCategory">

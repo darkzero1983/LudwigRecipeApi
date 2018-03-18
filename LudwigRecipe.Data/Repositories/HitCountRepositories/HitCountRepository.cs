@@ -26,7 +26,7 @@ namespace LudwigsRecipe.Data.Repositories.HitCountRepositories
 					HitDate = hitCountData.HitDate,
 					Ip = hitCountData.Ip,
 					Url = hitCountData.Url,
-					AspNetUser = user,
+					UserId = user.Id,
 					Recipe = recipe
 				};
 				context.HitCounts.Add(hitCount);

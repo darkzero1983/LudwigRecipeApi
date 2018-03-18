@@ -25,7 +25,6 @@ namespace LudwigRecipe.Data.DataContext
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
@@ -37,6 +36,7 @@ namespace LudwigRecipe.Data.DataContext
         public virtual DbSet<IngredientList> IngredientLists { get; set; }
         public virtual DbSet<Measurement> Measurements { get; set; }
         public virtual DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<RecipeToApplicationUser> RecipeToApplicationUsers { get; set; }
         public virtual DbSet<SeoTag> SeoTags { get; set; }
         public virtual DbSet<ShoppingList> ShoppingLists { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }

@@ -49,22 +49,19 @@ namespace LudwigsRecipe.Data.Repositories.IngredientListRepositories
 				}
 
 				Measurement measurement = context.Measurements.FirstOrDefault(x => x.Id == ingredientListData.MeasurementId);
-				if (measurement == null)
-				{
-					return 0;
-				}
 
 				Ingredient ingredient = context.Ingredients.FirstOrDefault(x => x.Id == ingredientListData.IngredientId);
-				if (ingredient == null)
-				{
-					return 0;
-				}
 
-				if (ingredientListData.Id == 0)
+				if (!ingredientListData.Id.HasValue || ingredientListData.Id == 0)
 				{
+					if(ingredient == null)
+					{
+						return 0;
+					}
+
 					IngredientList dbIngredientList = new IngredientList()
 					{
-						Amount = ingredientListData.Amount,
+						Amount = ingredientListData.Amount.HasValue ? ingredientListData.Amount.Value : 0,
 						Ingredient = ingredient,
 						Measurement = measurement,
 						Recipe = recipe,
@@ -77,13 +74,20 @@ namespace LudwigsRecipe.Data.Repositories.IngredientListRepositories
 				else
 				{
 					IngredientList dbIngredientList = context.IngredientLists.FirstOrDefault(x => x.Id == ingredientListData.Id);
+					
 					if (dbIngredientList != null)
 					{
+						if (ingredient == null)
+						{
+							context.IngredientLists.Remove(dbIngredientList);
+							context.SaveChanges();
+							return 0;
+						}
 						dbIngredientList.Ingredient = ingredient;
 						dbIngredientList.Measurement = measurement;
 						dbIngredientList.Recipe = recipe;
 						dbIngredientList.SortOrder = ingredientListData.SortOrder;
-						dbIngredientList.Amount = ingredientListData.Amount;
+						dbIngredientList.Amount = ingredientListData.Amount.HasValue ? ingredientListData.Amount.Value : 0;
 						context.SaveChanges();
 						return dbIngredientList.Id;
 					}

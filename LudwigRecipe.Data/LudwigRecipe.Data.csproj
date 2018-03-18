@@ -97,9 +97,6 @@
     <Compile Include="DataContext\AspNetRole.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataContext\AspNetRoleClaim.cs">
-      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataContext\AspNetUser.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
@@ -143,6 +140,9 @@
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
     <Compile Include="DataContext\Recipe.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\RecipeToApplicationUser.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
     <Compile Include="DataContext\SeoTag.cs">
