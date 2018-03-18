@@ -136,14 +136,20 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 
 		public List<ICategorySelectData> LoadCategoriesForRecipe(int recipeId)
 		{
-			/*
+			
 			using (LudwigRecipeContext context = new LudwigRecipeContext())
 			{
-				List<int> selectedCategories = context.RecipesToCategories.Where(x => x.RecipeId == recipeId).Select(x => x.CategoryId).ToList<int>();
-				List<int> selectedSubCategories = context.RecipesToSubCategories.Where(x => x.RecipeId == recipeId).Select(x => x.SubCategoryId).ToList<int>();
+				Recipe recipe = context.Recipes.FirstOrDefault(x => x.Id == recipeId);
+				if(recipe == null)
+				{
+					return null;
+				}
+
+				List<int> selectedCategories = recipe.Categories.Select(x => x.Id).ToList<int>();
+				List<int> selectedSubCategories = recipe.SubCategories.Select(x => x.Id).ToList<int>();
 
 				List<ICategorySelectData> categories = new List<ICategorySelectData>();
-				List<Category> dbCategories = context.Categories.Include(x => x.SubCategories).ToList();
+				List<Category> dbCategories = context.Categories.ToList();
 				foreach (Category category in dbCategories)
 				{
 					List<ISubCategorySelectData> subCategories = new List<ISubCategorySelectData>();
@@ -168,13 +174,10 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 				}
 				return categories;
 			}
-			*/
-			return null;
 		}
 
 		public void AddAndRemoveCategoriesFromRecipe(List<int> categoryIds, int recipeId)
 		{
-			/*
 			using (LudwigRecipeContext context = new LudwigRecipeContext())
 			{
 				Recipe recipe = context.Recipes.FirstOrDefault(x => x.Id == recipeId);
@@ -183,53 +186,38 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 					return;
 				}
 
-				context.RecipesToCategories.RemoveRange(context.RecipesToCategories.Where(x => x.RecipeId == recipeId).ToList());
+				recipe.Categories.Clear();
 				context.SaveChanges();
 
 				List<Category> categories = context.Categories.Where(x => categoryIds.Contains(x.Id)).ToList();
-
 				foreach (Category category in categories)
 				{
-					context.RecipesToCategories.Add(new RecipeToCategory()
-					{
-						Category = category,
-						CategoryId = category.Id,
-						Recipe = recipe,
-						RecipeId = recipe.Id
-					});
+					recipe.Categories.Add(category);
 				}
-				ctx.SaveChanges();
+				context.SaveChanges();
 			}
-			*/
-
 		}
 
 		public void AddAndRemoveSubCategoriesFromRecipe(List<int> subCategoryIds, int recipeId)
 		{
-			/*
-			Recipe recipe = ctx.Recipes.FirstOrDefault(x => x.Id == recipeId);
-			if (recipe == null)
+			using (LudwigRecipeContext context = new LudwigRecipeContext())
 			{
-				return;
-			}
-
-			ctx.RecipesToSubCategories.RemoveRange(ctx.RecipesToSubCategories.Where(x => x.RecipeId == recipeId).ToList());
-			ctx.SaveChanges();
-
-			List<SubCategory> subCategories = ctx.SubCategories.Where(x => subCategoryIds.Contains(x.Id)).ToList();
-
-			foreach (SubCategory subCategory in subCategories)
-			{
-				ctx.RecipesToSubCategories.Add(new RecipeToSubCategory()
+				Recipe recipe = context.Recipes.FirstOrDefault(x => x.Id == recipeId);
+				if (recipe == null)
 				{
-					SubCategory = subCategory,
-					SubCategoryId = subCategory.Id,
-					Recipe = recipe,
-					RecipeId = recipe.Id
-				});
+					return;
+				}
+
+				recipe.SubCategories.Clear();
+				context.SaveChanges();
+
+				List<SubCategory> subCategories = context.SubCategories.Where(x => subCategoryIds.Contains(x.Id)).ToList();
+				foreach (SubCategory subCategory in subCategories)
+				{
+					recipe.SubCategories.Add(subCategory);
+				}
+				context.SaveChanges();
 			}
-			ctx.SaveChanges();
-			*/
 		}
 
 		public List<ICategoryData> LoadCategoriesWithRecipes(bool isFriend)
