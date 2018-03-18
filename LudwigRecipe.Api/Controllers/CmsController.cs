@@ -70,7 +70,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 				_recipeService.SaveRecipeEditViewModel(model);
 				return model.Id;
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
 				return 0;
 			}
