@@ -47,14 +47,14 @@ namespace LudwigRecipe.Api.Api.Recipe
 		[Route("api/Cms/Measurements")]
 		public List<string> GetMeasurements()
 		{
-			return _measurementService.LoadMeasurements().OrderBy(x => x.Name).Select(x => x.Name).ToList();
+			return _measurementService.LoadMeasurements().OrderBy(x => x.Name).Select(x => x.Name).ToList().FindAll(x => !String.IsNullOrEmpty(x));
 		}
 
 		[HttpGet]
 		[Route("api/Cms/Ingredients")]
 		public List<string> GetIngredients()
 		{
-			return _ingredientService.LoadIngredients().OrderBy(x => x.Name).Select(x => x.Name).ToList();
+			return _ingredientService.LoadIngredients().OrderBy(x => x.Name).Select(x => x.Name).ToList().FindAll(x => !String.IsNullOrEmpty(x));
 		}
 
 		[HttpPost]
