@@ -508,21 +508,24 @@ namespace LudwigsRecipe.Service.Services.Recipe
 #endregion
 
 #region Authors
-			_userRepository.AddAndRemoveAuthorsFromRecipe(model.Authors.Select(x => x.Id).ToList(), model.Id);
+			//_userRepository.AddAndRemoveAuthorsFromRecipe(model.Authors.Select(x => x.Id).ToList(), model.Id);
 #endregion
 
 #region SeoTags
-			foreach (SeoTagViewModel seoTag in model.SeoTags)
-			{
-				if (seoTag.Id == 0)
+			if(model.SeoTags != null)
+			{ 
+				foreach (SeoTagViewModel seoTag in model.SeoTags)
 				{
-					seoTag.Id = _seoTagRepository.AddOrSelectSeoTag(new SeoTagData() { Name = seoTag.Name });
+					if (seoTag.Id == 0)
+					{
+						seoTag.Id = _seoTagRepository.AddOrSelectSeoTag(new SeoTagData() { Name = seoTag.Name });
+					}
 				}
+				_seoTagRepository.AddAndRemoveSeoTagsFromRecipe(model.SeoTags.Select(x => x.Id).ToList(), model.Id);
 			}
-			_seoTagRepository.AddAndRemoveSeoTagsFromRecipe(model.SeoTags.Select(x => x.Id).ToList(), model.Id);
 #endregion
 
-#region Categories
+			#region Categories
 
 			List<int> categoryIds = model.Categories.Where(x => x.IsSelected == true).Select(x => x.Id).ToList();
 			_categoryRespository.AddAndRemoveCategoriesFromRecipe(categoryIds, model.Id);
