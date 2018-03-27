@@ -43,23 +43,9 @@ namespace LudwigRecipe.Api.Api.Recipe
 			return _recipeService.LoadRecipeEditViewModel(id);
 		}
 
-		[HttpGet]
-		[Route("api/Cms/Measurements")]
-		public List<string> GetMeasurements()
-		{
-			return _measurementService.LoadMeasurements().OrderBy(x => x.Name).Select(x => x.Name).ToList().FindAll(x => !String.IsNullOrEmpty(x));
-		}
-
-		[HttpGet]
-		[Route("api/Cms/Ingredients")]
-		public List<string> GetIngredients()
-		{
-			return _ingredientService.LoadIngredients().OrderBy(x => x.Name).Select(x => x.Name).ToList().FindAll(x => !String.IsNullOrEmpty(x));
-		}
-
 		[HttpPost]
 		[Route("api/Cms/Recipe")]
-		public int Post([FromBody]RecipeEditViewModel model)
+		public int UpdateRecipe([FromBody]RecipeEditViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -76,6 +62,30 @@ namespace LudwigRecipe.Api.Api.Recipe
 			}
 		}
 
+		[HttpDelete]
+		[Route("api/Cms/Recipe")]
+		public bool DeleteRecipe(int id)
+		{
+			_recipeService.DeleteRecipe(id);
+			return true;
+		}
+
+		[HttpGet]
+		[Route("api/Cms/Measurements")]
+		public List<string> GetMeasurements()
+		{
+			return _measurementService.LoadMeasurements().OrderBy(x => x.Name).Select(x => x.Name).ToList().FindAll(x => !String.IsNullOrEmpty(x));
+		}
+
+		[HttpGet]
+		[Route("api/Cms/Ingredients")]
+		public List<string> GetIngredients()
+		{
+			return _ingredientService.LoadIngredients().OrderBy(x => x.Name).Select(x => x.Name).ToList().FindAll(x => !String.IsNullOrEmpty(x));
+		}
+
+
+
 		[HttpPost]
 		[Route("api/Cms/UploadTeaserImage/{id}")]
 		public async Task<IHttpActionResult> UploadTeaserImage(string id)
@@ -87,7 +97,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 			foreach (var file in provider.Contents)
 			{
 				try
-				{ 
+				{
 					string fileName = file.Headers.ContentDisposition.FileName.Trim('\"');
 					byte[] buffer = await file.ReadAsByteArrayAsync();
 
@@ -96,7 +106,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 						fs.Write(buffer, 0, buffer.Length);
 					}
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 
 				}
@@ -104,5 +114,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 
 			return Ok();
 		}
+
+
 	}
 }
