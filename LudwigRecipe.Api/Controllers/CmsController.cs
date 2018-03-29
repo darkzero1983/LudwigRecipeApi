@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace LudwigRecipe.Api.Api.Recipe
 {
@@ -62,8 +63,8 @@ namespace LudwigRecipe.Api.Api.Recipe
 			}
 		}
 
-		[HttpDelete]
-		[Route("api/Cms/Recipe")]
+		[HttpGet]
+		[Route("api/Cms/DeleteRecipe/{id}")]
 		public bool DeleteRecipe(int id)
 		{
 			_recipeService.DeleteRecipe(id);
