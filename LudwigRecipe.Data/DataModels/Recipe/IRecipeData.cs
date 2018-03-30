@@ -1,8 +1,7 @@
-﻿using LudwigsRecipe.Data.DataModels.Measurement;
+﻿using LudwigRecipe.Data.DataModels.Recipe;
+using LudwigsRecipe.Data.DataModels.Measurement;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LudwigsRecipe.Data.DataModels.Recipe
 {
@@ -21,5 +20,6 @@ namespace LudwigsRecipe.Data.DataModels.Recipe
 		IMeasurementData Measurement { get; set; }
 		Nullable<int> PreparationTime { get; set; }
 		Nullable<int> WaitingTime { get; set; }
+		List<IRecipeContent> ContentItems { get; set; }
 	}
 }

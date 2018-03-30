@@ -105,6 +105,8 @@
     <Compile Include="Models\Navigation\SearchResultRecipeViewModel.cs" />
     <Compile Include="Models\Navigation\SearchResultViewModel.cs" />
     <Compile Include="Models\Paging\PagingViewModel.cs" />
+    <Compile Include="Models\Recipe\RecipeContent.cs" />
+    <Compile Include="Models\Recipe\RecipeContentType.cs" />
     <Compile Include="Models\Recipe\RecipeDetailViewModel.cs" />
     <Compile Include="Models\Recipe\RecipeEditViewModel.cs" />
     <Compile Include="Models\Recipe\RecipeOverviewRecipeViewModel.cs" />

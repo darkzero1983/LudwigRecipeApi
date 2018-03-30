@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LudwigsRecipeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LudwigsRecipeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -129,6 +129,23 @@
           <Property Name="TeaserImageUrl" Type="nvarchar(max)" />
           <Property Name="Url" Type="nvarchar(max)" />
           <Property Name="WaitingTime" Type="int" />
+        </EntityType>
+        <EntityType Name="RecipeContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="ContentTypeId" Type="int" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecipeContentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="RecipeToApplicationUser">
           <Key>
@@ -327,6 +344,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RecipeContent_Recipe">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="RecipeContent" Type="Self.RecipeContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeContent">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeContent_RecipeContentType">
+          <End Role="RecipeContentType" Type="Self.RecipeContentType" Multiplicity="1" />
+          <End Role="RecipeContent" Type="Self.RecipeContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeContentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeContent">
+              <PropertyRef Name="ContentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RecipeToApplicationUser_Recipe_RecipeId">
           <End Role="Recipe" Type="Self.Recipe" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -450,6 +491,8 @@
           <EntitySet Name="IngredientList" EntityType="Self.IngredientList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Measurement" EntityType="Self.Measurement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeContent" EntityType="Self.RecipeContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeContentType" EntityType="Self.RecipeContentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeToApplicationUser" EntityType="Self.RecipeToApplicationUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeToCategory" EntityType="Self.RecipeToCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeToSeoTag" EntityType="Self.RecipeToSeoTag" Schema="dbo" store:Type="Tables" />
@@ -501,6 +544,14 @@
             <End Role="Measurement" EntitySet="Measurement" />
             <End Role="Recipe" EntitySet="Recipe" />
           </AssociationSet>
+          <AssociationSet Name="FK_RecipeContent_Recipe" Association="Self.FK_RecipeContent_Recipe">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="RecipeContent" EntitySet="RecipeContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeContent_RecipeContentType" Association="Self.FK_RecipeContent_RecipeContentType">
+            <End Role="RecipeContentType" EntitySet="RecipeContentType" />
+            <End Role="RecipeContent" EntitySet="RecipeContent" />
+          </AssociationSet>
           <AssociationSet Name="FK_RecipeToApplicationUser_Recipe_RecipeId" Association="Self.FK_RecipeToApplicationUser_Recipe_RecipeId">
             <End Role="Recipe" EntitySet="Recipe" />
             <End Role="RecipeToApplicationUser" EntitySet="RecipeToApplicationUser" />
@@ -534,8 +585,7 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LudwigsRecipeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -680,6 +730,7 @@
           <NavigationProperty Name="Categories" Relationship="Self.RecipeToCategory" FromRole="Recipe" ToRole="Category" />
           <NavigationProperty Name="SeoTags" Relationship="Self.RecipeToSeoTag" FromRole="Recipe" ToRole="SeoTag" />
           <NavigationProperty Name="SubCategories" Relationship="Self.RecipeToSubCategory" FromRole="Recipe" ToRole="SubCategory" />
+          <NavigationProperty Name="RecipeContents" Relationship="LudwigsRecipeModel.FK_RecipeContent_Recipe" FromRole="Recipe" ToRole="RecipeContent" />
         </EntityType>
         <EntityType Name="RecipeToApplicationUser">
           <Key>
@@ -949,7 +1000,61 @@
             <End Role="Recipe" EntitySet="Recipes" />
             <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
+          <EntitySet Name="RecipeContents" EntityType="LudwigsRecipeModel.RecipeContent" />
+          <EntitySet Name="RecipeContentTypes" EntityType="LudwigsRecipeModel.RecipeContentType" />
+          <AssociationSet Name="FK_RecipeContent_Recipe" Association="LudwigsRecipeModel.FK_RecipeContent_Recipe">
+            <End Role="Recipe" EntitySet="Recipes" />
+            <End Role="RecipeContent" EntitySet="RecipeContents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecipeContent_RecipeContentType" Association="LudwigsRecipeModel.FK_RecipeContent_RecipeContentType">
+            <End Role="RecipeContentType" EntitySet="RecipeContentTypes" />
+            <End Role="RecipeContent" EntitySet="RecipeContents" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="RecipeContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Recipe" Relationship="LudwigsRecipeModel.FK_RecipeContent_Recipe" FromRole="RecipeContent" ToRole="Recipe" />
+          <NavigationProperty Name="RecipeContentType" Relationship="LudwigsRecipeModel.FK_RecipeContent_RecipeContentType" FromRole="RecipeContent" ToRole="RecipeContentType" />
+        </EntityType>
+        <EntityType Name="RecipeContentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RecipeContents" Relationship="LudwigsRecipeModel.FK_RecipeContent_RecipeContentType" FromRole="RecipeContentType" ToRole="RecipeContent" />
+        </EntityType>
+        <Association Name="FK_RecipeContent_Recipe">
+          <End Type="LudwigsRecipeModel.Recipe" Role="Recipe" Multiplicity="1" />
+          <End Type="LudwigsRecipeModel.RecipeContent" Role="RecipeContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeContent">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecipeContent_RecipeContentType">
+          <End Type="LudwigsRecipeModel.RecipeContentType" Role="RecipeContentType" Multiplicity="1" />
+          <End Type="LudwigsRecipeModel.RecipeContent" Role="RecipeContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeContentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RecipeContent">
+              <PropertyRef Name="ContentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1150,6 +1255,25 @@
               <ScalarProperty Name="Id" ColumnName="SubCategoryId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="RecipeContents">
+            <EntityTypeMapping TypeName="LudwigsRecipeModel.RecipeContent">
+              <MappingFragment StoreEntitySet="RecipeContent">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="ContentTypeId" ColumnName="ContentTypeId" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeContentTypes">
+            <EntityTypeMapping TypeName="LudwigsRecipeModel.RecipeContentType">
+              <MappingFragment StoreEntitySet="RecipeContentType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

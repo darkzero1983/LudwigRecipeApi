@@ -5,6 +5,7 @@ using System.Linq;
 using LudwigsRecipe.Data.DataModels.Measurement;
 using LudwigsRecipe.Data.Helper;
 using LudwigRecipe.Data.DataContext;
+using LudwigRecipe.Data.DataModels.Recipe;
 
 namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 {
@@ -223,6 +224,7 @@ namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 			}
 			return recipe;
 		}
+
 		public int AddRecipe(IRecipeData recipe)
 		{
 			using (LudwigRecipeContext context = new LudwigRecipeContext())
@@ -303,6 +305,62 @@ namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 
 				dbRecipe.TeaserImageUrl = teaserImageUrl;
 
+				context.SaveChanges();
+			}
+		}
+
+		public List<IRecipeContent> LoadRecipeContents(int recipeId)
+		{
+			List<IRecipeContent> contents = new List<IRecipeContent>();
+
+			using (LudwigRecipeContext context = new LudwigRecipeContext())
+			{
+				try
+				{
+					var recipeContents = context.RecipeContents.Where(x => x.RecipeId == recipeId).ToList();
+					if(recipeContents == null)
+					{
+						return contents;
+					}
+
+					foreach (var recipeContent in recipeContents)
+					{
+						contents.Add(new LudwigRecipe.Data.DataModels.Recipe.RecipeContent()
+						{
+							Id = recipeContent.Id,
+							RecipeContentTypeId = recipeContent.RecipeContentType.Id,
+							Content = recipeContent.Content,
+							SortOrder = recipeContent.SortOrder
+						});
+					}
+				}
+				catch (Exception e)
+				{
+				}
+			}
+			return contents;
+		}
+
+		public void DeleteAllRecipeContents(int recipeId)
+		{
+			using (LudwigRecipeContext context = new LudwigRecipeContext())
+			{
+				context.RecipeContents.RemoveRange(context.RecipeContents.Where(x => x.RecipeId == recipeId));
+				context.SaveChanges();
+			}
+		}
+
+		public void AddRecipeContent(int recipeId, IRecipeContent content)
+		{
+			using (LudwigRecipeContext context = new LudwigRecipeContext())
+			{
+				context.RecipeContents.Add(new LudwigRecipe.Data.DataContext.RecipeContent()
+				{
+					RecipeId = recipeId,
+					Content = content.Content,
+					ContentTypeId = content.RecipeContentTypeId,
+					SortOrder = content.SortOrder
+				});
 				context.SaveChanges();
 			}
 		}

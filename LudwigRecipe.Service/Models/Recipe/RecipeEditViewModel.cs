@@ -1,4 +1,5 @@
-﻿using LudwigsRecipe.Service.Models.Category;
+﻿using LudwigRecipe.Service.Models.Recipe;
+using LudwigsRecipe.Service.Models.Category;
 using LudwigsRecipe.Service.Models.Ingredient;
 using LudwigsRecipe.Service.Models.Measurement;
 using LudwigsRecipe.Service.Models.SeoTag;
@@ -28,12 +29,15 @@ namespace LudwigsRecipe.Service.Models.Recipe
 		public List<CategoryToRecipeViewModel> Categories { get; set; }
 		public int? PreparationTime { get; set; }
 		public int? WaitingTime { get; set; }
+		public List<RecipeContent> ContentItems { get; set; }
+
 		public RecipeEditViewModel()
 		{
 			IngredientList = new List<IngredientListItemViewModel>();
 			Authors = new List<AuthorViewModel>();
 			SeoTags = new List<SeoTagViewModel>();
 			Categories = new List<CategoryToRecipeViewModel>();
+			ContentItems = new List<RecipeContent>();
 		}
 	}
 }

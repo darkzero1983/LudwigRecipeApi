@@ -23,6 +23,7 @@ namespace LudwigRecipe.Data.DataContext
             this.Categories = new HashSet<Category>();
             this.SeoTags = new HashSet<SeoTag>();
             this.SubCategories = new HashSet<SubCategory>();
+            this.RecipeContents = new HashSet<RecipeContent>();
         }
     
         public int Id { get; set; }
@@ -55,5 +56,7 @@ namespace LudwigRecipe.Data.DataContext
         public virtual ICollection<SeoTag> SeoTags { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SubCategory> SubCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RecipeContent> RecipeContents { get; set; }
     }
 }

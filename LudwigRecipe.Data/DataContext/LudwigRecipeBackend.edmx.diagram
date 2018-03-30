@@ -35,6 +35,10 @@
         <AssociationConnector Association="LudwigsRecipeModel.RecipeToCategory" ManuallyRouted="false" />
         <AssociationConnector Association="LudwigsRecipeModel.RecipeToSeoTag" ManuallyRouted="false" />
         <AssociationConnector Association="LudwigsRecipeModel.RecipeToSubCategory" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.RecipeContent" Width="1.5" PointX="8.25" PointY="11.5" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.RecipeContentType" Width="1.5" PointX="6" PointY="19.875" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_RecipeContent_Recipe" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_RecipeContent_RecipeContentType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

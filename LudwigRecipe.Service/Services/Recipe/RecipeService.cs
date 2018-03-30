@@ -24,6 +24,7 @@ using LudwigsRecipe.Data.DataModels.Measurement;
 using LudwigsRecipe.Data.Helper;
 using LudwigsRecipe.Service.Models.Navigation;
 using DarkZero.Core.Extensions;
+using LudwigRecipe.Data.DataModels.Recipe;
 
 namespace LudwigsRecipe.Service.Services.Recipe
 {
@@ -345,38 +346,6 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			}
 			#endregion
 
-			#region Authors	
-			
-			List<IUserData> authors = _userRepository.LoadAuthorsFromRecipe(model.Id);
-			if(authors != null)
-			{ 
-				foreach (IUserData author in authors)
-				{
-					model.Authors.Add(new AuthorViewModel()
-					{
-						Id = author.Id,
-						Name = author.Name
-					});
-				}
-			}
-
-			#endregion
-
-			#region SeoTags
-			List<ISeoTagData> seoTags = _seoTagRepository.LoadSeoTagsFromRecipe(model.Id);
-			if(seoTags != null)
-			{
-				foreach (ISeoTagData seoTag in seoTags)
-				{
-					model.SeoTags.Add(new SeoTagViewModel()
-					{
-						Id = seoTag.Id,
-						Name = seoTag.Name
-					});
-				}
-			}
-			#endregion
-
 			#region Categories
 			List<ICategorySelectData> categoryDatas = _categoryRespository.LoadCategoriesForRecipe(model.Id);
 			if(categoryDatas != null)
@@ -402,6 +371,24 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					});
 				}
 			}
+			#endregion
+
+			#region Content
+			List<IRecipeContent> contents = _recipeRepository.LoadRecipeContents(model.Id);
+			if(contents != null)
+			{
+				foreach (IRecipeContent content in contents)
+				{
+					model.ContentItems.Add(new LudwigRecipe.Service.Models.Recipe.RecipeContent()
+					{
+						Id = content.Id,
+						Content = content.Content,
+						ContentType = (LudwigRecipe.Service.Models.Recipe.RecipeContentType)content.RecipeContentTypeId,
+						SortOrder = content.SortOrder
+					});
+				}
+			}
+
 			#endregion
 
 			return model;
@@ -475,7 +462,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			}
 #endregion
 
-#region IngredientList
+			#region IngredientList
 			if (model.IngredientList != null)
 			{
 
@@ -507,31 +494,29 @@ namespace LudwigsRecipe.Service.Services.Recipe
 			}
 #endregion
 
-#region Authors
-			//_userRepository.AddAndRemoveAuthorsFromRecipe(model.Authors.Select(x => x.Id).ToList(), model.Id);
-#endregion
-
-#region SeoTags
-			if(model.SeoTags != null)
-			{ 
-				foreach (SeoTagViewModel seoTag in model.SeoTags)
-				{
-					if (seoTag.Id == 0)
-					{
-						seoTag.Id = _seoTagRepository.AddOrSelectSeoTag(new SeoTagData() { Name = seoTag.Name });
-					}
-				}
-				_seoTagRepository.AddAndRemoveSeoTagsFromRecipe(model.SeoTags.Select(x => x.Id).ToList(), model.Id);
-			}
-#endregion
-
 			#region Categories
-
 			List<int> categoryIds = model.Categories.Where(x => x.IsSelected == true).Select(x => x.Id).ToList();
 			_categoryRespository.AddAndRemoveCategoriesFromRecipe(categoryIds, model.Id);
 			List<int> subCategoryIds = model.Categories.SelectMany(x => x.SubCategories).Where(x => x.IsSelected == true).Select(x => x.Id).ToList<int>();
 			_categoryRespository.AddAndRemoveSubCategoriesFromRecipe(subCategoryIds, model.Id);
-#endregion
+			#endregion
+
+			#region Contents
+			_recipeRepository.DeleteAllRecipeContents(model.Id);
+			foreach (var contentItem in model.ContentItems)
+			{
+				if(String.IsNullOrWhiteSpace(contentItem.Content))
+				{
+					continue;
+				}
+				_recipeRepository.AddRecipeContent(model.Id, new RecipeContent()
+				{
+					Content = contentItem.Content,
+					RecipeContentTypeId = (int)contentItem.ContentType,
+					SortOrder = contentItem.SortOrder
+				});
+			}
+			#endregion
 		}
 
 		public void DeleteRecipe(int id)

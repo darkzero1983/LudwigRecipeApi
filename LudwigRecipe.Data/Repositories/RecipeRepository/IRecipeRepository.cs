@@ -1,4 +1,5 @@
-﻿using LudwigsRecipe.Data.DataModels.Recipe;
+﻿using LudwigRecipe.Data.DataModels.Recipe;
+using LudwigsRecipe.Data.DataModels.Recipe;
 using LudwigsRecipe.Data.Helper;
 using System.Collections.Generic;
 
@@ -14,5 +15,9 @@ namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 		int AddRecipe(IRecipeData recipe);
 		void EditTeaserImage(int recipeId, string teaserImageUrl);
 		void EditRecipe(IRecipeData recipe);
+
+		List<IRecipeContent> LoadRecipeContents(int recipeId);
+		void DeleteAllRecipeContents(int recipeId);
+		void AddRecipeContent(int recipeId, IRecipeContent content);
 	}
 }

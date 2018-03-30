@@ -1,5 +1,4 @@
-﻿using LudwigsRecipe.Service.Models.Navigation;
-using LudwigsRecipe.Service.Models.Recipe;
+﻿using LudwigsRecipe.Service.Models.Recipe;
 using LudwigsRecipe.Service.Services.IngredientService;
 using LudwigsRecipe.Service.Services.MeasurementService;
 using LudwigsRecipe.Service.Services.Recipe;
@@ -8,11 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace LudwigRecipe.Api.Api.Recipe
 {

@@ -142,6 +142,12 @@
     <Compile Include="DataContext\Recipe.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataContext\RecipeContent.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataContext\RecipeContentType.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataContext\RecipeToApplicationUser.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
@@ -170,9 +176,11 @@
     <Compile Include="DataModels\Ingredient\IngredientData.cs" />
     <Compile Include="DataModels\Measurement\IMeasurementData.cs" />
     <Compile Include="DataModels\Measurement\MeasurementData.cs" />
+    <Compile Include="DataModels\Recipe\IRecipeContent.cs" />
     <Compile Include="DataModels\Recipe\IRecipeData.cs" />
     <Compile Include="DataModels\Recipe\IRecipeDetailData.cs" />
     <Compile Include="DataModels\Recipe\IRecipeOverviewData.cs" />
+    <Compile Include="DataModels\Recipe\RecipeContent.cs" />
     <Compile Include="DataModels\Recipe\RecipeData.cs" />
     <Compile Include="DataModels\Recipe\RecipeDetailData.cs" />
     <Compile Include="DataModels\Recipe\RecipeOverviewData.cs" />
