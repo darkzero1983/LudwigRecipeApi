@@ -25,6 +25,7 @@ using LudwigsRecipe.Data.Helper;
 using LudwigsRecipe.Service.Models.Navigation;
 using DarkZero.Core.Extensions;
 using LudwigRecipe.Data.DataModels.Recipe;
+using LudwigRecipe.Service.Models.Recipe;
 
 namespace LudwigsRecipe.Service.Services.Recipe
 {
@@ -271,6 +272,25 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					}
 
 				}
+
+				if (model.Id != 0)
+				{
+					List<IRecipeContent> contentItems = _recipeRepository.LoadRecipeContents(model.Id);
+					if(contentItems != null)
+					{ 
+						foreach (IRecipeContent contentItem in contentItems)
+						{
+							model.ContentItems.Add(new LudwigRecipe.Service.Models.Recipe.RecipeContent()
+							{
+								Id = contentItem.Id,
+								Content = contentItem.Content,
+								ContentType = (RecipeContentType)contentItem.RecipeContentTypeId,
+								SortOrder = contentItem.SortOrder
+							});
+						}
+					}
+
+				}
 			}
 			return model;
 		}
@@ -383,7 +403,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					{
 						Id = content.Id,
 						Content = content.Content,
-						ContentType = (LudwigRecipe.Service.Models.Recipe.RecipeContentType)content.RecipeContentTypeId,
+						ContentType = (RecipeContentType)content.RecipeContentTypeId,
 						SortOrder = content.SortOrder
 					});
 				}
@@ -509,7 +529,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 				{
 					continue;
 				}
-				_recipeRepository.AddRecipeContent(model.Id, new RecipeContent()
+				_recipeRepository.AddRecipeContent(model.Id, new LudwigRecipe.Data.DataModels.Recipe.RecipeContent()
 				{
 					Content = contentItem.Content,
 					RecipeContentTypeId = (int)contentItem.ContentType,
