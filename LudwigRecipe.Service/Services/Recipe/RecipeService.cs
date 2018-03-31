@@ -523,7 +523,8 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 			#region Contents
 			_recipeRepository.DeleteAllRecipeContents(model.Id);
-			foreach (var contentItem in model.ContentItems)
+			int sortOrder = 1;
+			foreach (var contentItem in model.ContentItems.OrderBy(x => x.SortOrder))
 			{
 				if(String.IsNullOrWhiteSpace(contentItem.Content))
 				{
@@ -533,8 +534,9 @@ namespace LudwigsRecipe.Service.Services.Recipe
 				{
 					Content = contentItem.Content,
 					RecipeContentTypeId = (int)contentItem.ContentType,
-					SortOrder = contentItem.SortOrder
+					SortOrder = sortOrder
 				});
+				sortOrder = sortOrder + 1;
 			}
 			#endregion
 		}
