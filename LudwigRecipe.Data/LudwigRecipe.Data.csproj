@@ -121,6 +121,9 @@
     <Compile Include="DataContext\IngredientList.cs">
       <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataContext\IngredientListGroup.cs">
+      <DependentUpon>LudwigRecipeBackend.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataContext\LudwigRecipeBackend.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

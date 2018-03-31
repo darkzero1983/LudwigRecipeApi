@@ -102,6 +102,16 @@
           <Property Name="RecipeId" Type="int" Nullable="false" />
           <Property Name="ShoppingListUserId" Type="nvarchar" MaxLength="450" />
           <Property Name="SortOrder" Type="int" Nullable="false" />
+          <Property Name="IngredientListGroupId" Type="int" />
+        </EntityType>
+        <EntityType Name="IngredientListGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="SortOrder" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Measurement">
           <Key>
@@ -281,6 +291,18 @@
             </Principal>
             <Dependent Role="IngredientList">
               <PropertyRef Name="IngredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IngredientList_IngredientListGroup">
+          <End Role="IngredientListGroup" Type="Self.IngredientListGroup" Multiplicity="0..1" />
+          <End Role="IngredientList" Type="Self.IngredientList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientListGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientList">
+              <PropertyRef Name="IngredientListGroupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -489,6 +511,7 @@
           <EntitySet Name="HitCount" EntityType="Self.HitCount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngredientList" EntityType="Self.IngredientList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientListGroup" EntityType="Self.IngredientListGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Measurement" EntityType="Self.Measurement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeContent" EntityType="Self.RecipeContent" Schema="dbo" store:Type="Tables" />
@@ -522,6 +545,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_IngredientList_Ingredient_IngredientId" Association="Self.FK_IngredientList_Ingredient_IngredientId">
             <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="IngredientList" EntitySet="IngredientList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IngredientList_IngredientListGroup" Association="Self.FK_IngredientList_IngredientListGroup">
+            <End Role="IngredientListGroup" EntitySet="IngredientListGroup" />
             <End Role="IngredientList" EntitySet="IngredientList" />
           </AssociationSet>
           <AssociationSet Name="FK_IngredientList_Measurement_MeasurementId" Association="Self.FK_IngredientList_Measurement_MeasurementId">
@@ -693,6 +720,8 @@
           <NavigationProperty Name="Measurement" Relationship="Self.FK_IngredientList_Measurement_MeasurementId" FromRole="IngredientList" ToRole="Measurement" />
           <NavigationProperty Name="Recipe" Relationship="Self.FK_IngredientList_Recipe_RecipeId" FromRole="IngredientList" ToRole="Recipe" />
           <NavigationProperty Name="ShoppingList" Relationship="Self.FK_IngredientList_ShoppingList_ShoppingListUserId" FromRole="IngredientList" ToRole="ShoppingList" />
+          <Property Name="IngredientListGroupId" Type="Int32" />
+          <NavigationProperty Name="IngredientListGroup" Relationship="LudwigsRecipeModel.FK_IngredientList_IngredientListGroup" FromRole="IngredientList" ToRole="IngredientListGroup" />
         </EntityType>
         <EntityType Name="Measurement">
           <Key>
@@ -1010,6 +1039,11 @@
             <End Role="RecipeContentType" EntitySet="RecipeContentTypes" />
             <End Role="RecipeContent" EntitySet="RecipeContents" />
           </AssociationSet>
+          <EntitySet Name="IngredientListGroups" EntityType="LudwigsRecipeModel.IngredientListGroup" />
+          <AssociationSet Name="FK_IngredientList_IngredientListGroup" Association="LudwigsRecipeModel.FK_IngredientList_IngredientListGroup">
+            <End Role="IngredientListGroup" EntitySet="IngredientListGroups" />
+            <End Role="IngredientList" EntitySet="IngredientLists" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="RecipeContent">
           <Key>
@@ -1052,6 +1086,28 @@
             </Principal>
             <Dependent Role="RecipeContent">
               <PropertyRef Name="ContentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="IngredientListGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="IngredientLists" Relationship="LudwigsRecipeModel.FK_IngredientList_IngredientListGroup" FromRole="IngredientListGroup" ToRole="IngredientList" />
+        </EntityType>
+        <Association Name="FK_IngredientList_IngredientListGroup">
+          <End Type="LudwigsRecipeModel.IngredientListGroup" Role="IngredientListGroup" Multiplicity="0..1" />
+          <End Type="LudwigsRecipeModel.IngredientList" Role="IngredientList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientListGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IngredientList">
+              <PropertyRef Name="IngredientListGroupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1148,6 +1204,7 @@
           <EntitySetMapping Name="IngredientLists">
             <EntityTypeMapping TypeName="LudwigsRecipeModel.IngredientList">
               <MappingFragment StoreEntitySet="IngredientList">
+                <ScalarProperty Name="IngredientListGroupId" ColumnName="IngredientListGroupId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
@@ -1270,6 +1327,16 @@
             <EntityTypeMapping TypeName="LudwigsRecipeModel.RecipeContentType">
               <MappingFragment StoreEntitySet="RecipeContentType">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientListGroups">
+            <EntityTypeMapping TypeName="LudwigsRecipeModel.IngredientListGroup">
+              <MappingFragment StoreEntitySet="IngredientListGroup">
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

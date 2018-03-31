@@ -39,6 +39,8 @@
         <EntityTypeShape EntityType="LudwigsRecipeModel.RecipeContentType" Width="1.5" PointX="6" PointY="19.875" />
         <AssociationConnector Association="LudwigsRecipeModel.FK_RecipeContent_Recipe" />
         <AssociationConnector Association="LudwigsRecipeModel.FK_RecipeContent_RecipeContentType" />
+        <EntityTypeShape EntityType="LudwigsRecipeModel.IngredientListGroup" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="LudwigsRecipeModel.FK_IngredientList_IngredientListGroup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

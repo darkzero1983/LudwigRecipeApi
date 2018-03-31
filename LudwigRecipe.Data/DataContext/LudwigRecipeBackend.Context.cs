@@ -42,5 +42,6 @@ namespace LudwigRecipe.Data.DataContext
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<RecipeContent> RecipeContents { get; set; }
         public virtual DbSet<RecipeContentType> RecipeContentTypes { get; set; }
+        public virtual DbSet<IngredientListGroup> IngredientListGroups { get; set; }
     }
 }

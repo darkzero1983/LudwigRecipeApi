@@ -12,21 +12,20 @@ namespace LudwigRecipe.Data.DataContext
     using System;
     using System.Collections.Generic;
     
-    public partial class IngredientList
+    public partial class IngredientListGroup
     {
-        public int Id { get; set; }
-        public Nullable<decimal> Amount { get; set; }
-        public int IngredientId { get; set; }
-        public Nullable<int> MeasurementId { get; set; }
-        public int RecipeId { get; set; }
-        public string ShoppingListUserId { get; set; }
-        public int SortOrder { get; set; }
-        public Nullable<int> IngredientListGroupId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public IngredientListGroup()
+        {
+            this.IngredientLists = new HashSet<IngredientList>();
+        }
     
-        public virtual Ingredient Ingredient { get; set; }
-        public virtual Measurement Measurement { get; set; }
-        public virtual Recipe Recipe { get; set; }
-        public virtual ShoppingList ShoppingList { get; set; }
-        public virtual IngredientListGroup IngredientListGroup { get; set; }
+        public int Id { get; set; }
+        public int RecipeId { get; set; }
+        public string Name { get; set; }
+        public int SortOrder { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IngredientList> IngredientLists { get; set; }
     }
 }
