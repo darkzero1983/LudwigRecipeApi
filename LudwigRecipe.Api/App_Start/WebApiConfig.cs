@@ -12,7 +12,7 @@ namespace LudwigRecipe.Api
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
 			var cors = new EnableCorsAttribute("*", "*", "*");
-			config.EnableCors(cors);
+			config.EnableCors();
 			
 			config.Formatters.XmlFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("multipart/form-data"));
 
