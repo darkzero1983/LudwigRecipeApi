@@ -222,37 +222,46 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 
 		public List<ICategoryData> LoadCategoriesWithRecipes(bool isFriend)
 		{
-			/*
+			
 			List<ICategoryData> categories = new List<ICategoryData>();
-			try
+			using (LudwigRecipeContext context = new LudwigRecipeContext())
 			{
-				var queryCategories = ctx.RecipesToCategories.Include(x => x.Recipe).Include(x => x.Category).ThenInclude(x => x.SubCategories).AsQueryable();
-				queryCategories = queryCategories.Where(x => x.Recipe.IsPublished == true && x.Recipe.PublishDate <= DateTime.Now);
-				if (!isFriend)
-				{
-					queryCategories = queryCategories.Where(x => x.Recipe.IsOnlyForFriends == false);
-				}
-				List<RecipeToCategory> dbRecipesToCategories = queryCategories.Distinct().ToList();
-				
-				foreach (RecipeToCategory recipeToCategory in dbRecipesToCategories)
-				{
-					if(categories.FirstOrDefault(x => x.Id == recipeToCategory.Category.Id) != null)
-					{
-						continue;
-					}
-					List<ISubCategoryData> subCategories = new List<ISubCategoryData>();
-					if (recipeToCategory.Category.SubCategories != null)
-					{
-						var querySubCategories = ctx.RecipesToSubCategories.Include(x => x.Recipe).Include(x => x.SubCategory).AsQueryable();
-						querySubCategories = querySubCategories.Where(x => recipeToCategory.Category.SubCategories.Select(y => y.Id).Contains(x.SubCategoryId));
-					
-						querySubCategories = querySubCategories.Where(x => x.Recipe.IsPublished == true && x.Recipe.PublishDate <= DateTime.Now);
-						if (!isFriend)
-						{
-							querySubCategories = querySubCategories.Where(x => x.Recipe.IsOnlyForFriends == false);
-						}
-						List<SubCategory> dbSubCategories = querySubCategories.Select(x => x.SubCategory).Distinct().ToList();
+				List<int> categoryIds = new List<int>();
+				List<int> subCategoryIds = new List<int>();
 
+				List<IEnumerable<int>> categoriesFromRecipeIds = context.Recipes.Where(x => x.IsPublished && x.PublishDate <= DateTime.Now).Select(x => x.Categories.Select(y => y.Id)).ToList();
+				foreach (List<int> categoriesFromRecipeId in categoriesFromRecipeIds)
+				{
+					foreach (int categorieId in categoriesFromRecipeId)
+					{
+						if(!categoryIds.Contains(categorieId))
+						{
+							categoryIds.Add(categorieId);
+						}
+					}
+				}
+
+				List<IEnumerable<int>> subCategoriesFromRecipeIds = context.Recipes.Where(x => x.IsPublished && x.PublishDate <= DateTime.Now).Select(x => x.SubCategories.Select(y => y.Id)).ToList();
+				foreach (List<int> subCategoriesFromRecipeId in subCategoriesFromRecipeIds)
+				{
+					foreach (int subCategorieId in subCategoriesFromRecipeId)
+					{
+						if (!subCategoryIds.Contains(subCategorieId))
+						{
+							subCategoryIds.Add(subCategorieId);
+						}
+					}
+				}
+
+				foreach (int categoryId in categoryIds)
+				{
+					List<ISubCategoryData> subCategories = new List<ISubCategoryData>();
+
+					Category dbCategory = context.Categories.FirstOrDefault(x => x.Id == categoryId);
+					List<SubCategory> dbSubCategories = context.SubCategories.Where(x => x.CategoryId == categoryId).ToList();
+
+					if (dbSubCategories != null)
+					{
 						foreach (SubCategory subCategory in dbSubCategories)
 						{
 							if(subCategories.FirstOrDefault(x => x.Id == subCategory.Id) != null)
@@ -261,7 +270,7 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 							}
 							subCategories.Add(new SubCategoryData()
 							{
-								CategoryId = recipeToCategory.Category.Id,
+								CategoryId = categoryId,
 								Id = subCategory.Id,
 								Name = subCategory.Name,
 								Order = subCategory.DisplayOrder,
@@ -271,22 +280,18 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 					}
 					categories.Add(new CategoryData()
 					{
-						Id = recipeToCategory.Category.Id,
-						IsMainMenu = recipeToCategory.Category.IsDisplayInMainNavigation,
-						Name = recipeToCategory.Category.Name,
-						Order = recipeToCategory.Category.DisplayOrder,
-						Url = recipeToCategory.Category.Url,
+						Id = dbCategory.Id,
+						IsMainMenu = dbCategory.IsDisplayInMainNavigation,
+						Name = dbCategory.Name,
+						Order = dbCategory.DisplayOrder,
+						Url = dbCategory.Url,
 						SubCategories = subCategories
 					});
 				}
-			}
-			catch (Exception exception)
-			{
+
 
 			}
 			return categories;
-			*/
-			return null;
 		}
 
 		public string LoadCategoryNameByUrl(string url)

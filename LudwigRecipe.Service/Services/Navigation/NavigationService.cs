@@ -21,11 +21,6 @@ namespace LudwigsRecipe.Service.Services.Navigation
 		{
 			NavigationViewModel navigation = new NavigationViewModel();
 
-			navigation.MainNavigation.Add(new NavigationGroupViewModel()
-			{
-				Name = "Top Rezepte",
-				RouteName = "Home"
-			});
 			List<ICategoryData> categories = _catgeoryRepository.LoadCategoriesWithRecipes(isFriend);
 
 			foreach (ICategoryData category in categories.OrderBy(x => x.Order))
