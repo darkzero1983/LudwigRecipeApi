@@ -11,11 +11,7 @@ using LudwigsRecipe.Service.Models.Ingredient;
 using LudwigsRecipe.Data.Repositories.IngredientRepository;
 using LudwigsRecipe.Data.Repositories.MeasurementRepository;
 using LudwigsRecipe.Data.Repositories.UserRepositories;
-using LudwigsRecipe.Data.DataModels.User;
-using LudwigsRecipe.Service.Models.User;
-using LudwigsRecipe.Data.DataModels.SeoTag;
 using LudwigsRecipe.Data.Repositories.SeoTagRepositories;
-using LudwigsRecipe.Service.Models.SeoTag;
 using LudwigsRecipe.Service.Models.Category;
 using LudwigsRecipe.Data.Repositories.CategoryRepository;
 using LudwigsRecipe.Data.DataModels.Category;
@@ -88,7 +84,15 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 		public RecipeOverviewViewModel LoadRecipeOverview(int count, int skip, string category, string subCategory, bool isFriend)
 		{
-			int recipesPerPage = 10;
+			string headline = "Top Rezepte";
+			if(!String.IsNullOrEmpty(subCategory))
+			{
+				headline = "Rezepte zum Thema " + _categoryRespository.LoadSubCategoryNameByUrl(subCategory);
+			}
+			else if(!String.IsNullOrEmpty(category))
+			{
+				headline = "Rezepte zum Thema " + _categoryRespository.LoadCategoryNameByUrl(category);
+			}
 			RequestRecipe request = new RequestRecipe()
 			{
 				Top = count,
@@ -102,37 +106,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 
 			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
 
-			return MapRecipeOverviewViewModel(recipes, recipeCount, "Top Rezepte");
-		}
-
-		public RecipeOverviewViewModel LoadTopRecipes(int page, bool isFriend)
-		{
-			int recipesPerPage = 10;
-			RequestRecipe request = new RequestRecipe()
-			{
-				Top = recipesPerPage,
-				ForPublicWeb = true,
-				IsFriend = isFriend
-			};
-			int recipeCount = _recipeRepository.LoadOverviewRecipesCount(request);
-			int maxPages = (int)(recipeCount / recipesPerPage);
-			if (maxPages < ((decimal)recipeCount / (decimal)recipesPerPage))
-			{
-				maxPages = maxPages + 1;
-			}
-
-			if (page > maxPages)
-			{
-				page = maxPages;
-			}
-			request.Skip = (recipesPerPage * page) - recipesPerPage;
-			if ((recipeCount - request.Skip) < request.Top)
-			{
-				request.Top = (recipeCount - request.Skip);
-			}
-			List<IRecipeOverviewData> recipes = _recipeRepository.LoadOverviewRecipes(request);
-
-			return MapRecipeOverviewViewModel(recipes, recipeCount, "Top Rezepte");
+			return MapRecipeOverviewViewModel(recipes, recipeCount, headline);
 		}
 
 		public RecipeOverviewViewModel LoadRecipesFromCategories(int page, bool isFriend, string url)

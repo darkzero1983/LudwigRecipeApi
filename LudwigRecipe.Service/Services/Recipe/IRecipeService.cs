@@ -7,7 +7,6 @@ namespace LudwigsRecipe.Service.Services.Recipe
 	{
 		SearchResultViewModel SearchRecipes(string term, bool isFriend);
 		RecipeOverviewViewModel LoadRecipeOverview(int count, int skip, string category, string subCategory, bool isFriend);
-		RecipeOverviewViewModel LoadTopRecipes(int page, bool isFriend);
 		RecipeOverviewViewModel LoadRecipesFromCategories(int page, bool isFriend, string url);
 		RecipeOverviewViewModel LoadRecipesFromSubCategories(int page, bool isFriend, string url);
 		RecipeOverviewViewModel LoadCMSRecipes(int count, int skip);

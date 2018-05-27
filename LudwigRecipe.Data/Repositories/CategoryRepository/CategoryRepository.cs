@@ -258,7 +258,7 @@ namespace LudwigsRecipe.Data.Repositories.CategoryRepository
 					List<ISubCategoryData> subCategories = new List<ISubCategoryData>();
 
 					Category dbCategory = context.Categories.FirstOrDefault(x => x.Id == categoryId);
-					List<SubCategory> dbSubCategories = context.SubCategories.Where(x => x.CategoryId == categoryId).ToList();
+					List<SubCategory> dbSubCategories = context.SubCategories.Where(x => x.CategoryId == categoryId && subCategoryIds.Contains(x.Id)).ToList();
 
 					if (dbSubCategories != null)
 					{

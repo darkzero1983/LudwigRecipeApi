@@ -98,11 +98,13 @@ namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 
 				var recipeQuery = context.Recipes.AsQueryable();
 
+				int categoryId = 0;
 				if (!String.IsNullOrEmpty(requestData.CategoryUrl))
 				{
 					Category category = context.Categories.FirstOrDefault(x => x.Url == requestData.CategoryUrl);
 					if (category != null)
 					{
+						categoryId = category.Id;
 						recipeQuery = recipeQuery.Where(x => x.Categories.FirstOrDefault(y => y.Id == category.Id) != null);
 					}
 
@@ -114,7 +116,7 @@ namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 					SubCategory subCategory = context.SubCategories.FirstOrDefault(x => x.Url == requestData.SubCategoryUrl);
 					if (subCategory != null)
 					{
-						recipeQuery = recipeQuery.Where(x => x.SubCategories.FirstOrDefault(y => y.Id == subCategory.Id) != null);
+						recipeQuery = recipeQuery.Where(x => x.SubCategories.FirstOrDefault(y => y.Id == subCategory.Id && y.CategoryId == categoryId) != null);
 					}
 				}
 
