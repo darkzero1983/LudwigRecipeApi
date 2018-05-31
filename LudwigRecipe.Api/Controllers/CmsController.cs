@@ -87,7 +87,18 @@ namespace LudwigRecipe.Api.Api.Recipe
 		[Route("api/Cms/UploadTeaserImage/{id}")]
 		public async Task<IHttpActionResult> UploadTeaserImage(string id)
 		{
-			var uploads = "D:\\Dropbox\\Dokumente Peter\\Visual Studio\\ImageManager\\ImageManager.Web\\media\\LudwigsRezepte\\" + id + "\\";
+			var uploads = "";
+//#if Debug
+
+	//		uploads = "D:\\Dropbox\\Dokumente Peter\\Visual Studio\\ImageManager\\ImageManager.Web\\media\\LudwigsRezepte\\" + id + "\\";
+//#else
+			uploads = "C:\\DarkZero\\Dropbox\\DarkServer\\Webs\\ImageManager\\media\\LudwigsRezepte\\" + id + "\\";
+			//#endif
+
+			bool exists = System.IO.Directory.Exists(uploads);
+
+			if (!exists)
+				System.IO.Directory.CreateDirectory(uploads);
 
 			var provider = new MultipartMemoryStreamProvider();
 			await Request.Content.ReadAsMultipartAsync(provider);

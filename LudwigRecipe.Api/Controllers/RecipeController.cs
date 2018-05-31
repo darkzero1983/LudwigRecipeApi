@@ -1,4 +1,5 @@
-﻿using LudwigsRecipe.Service.Models.Navigation;
+﻿using LudwigRecipe.Api.Helper;
+using LudwigsRecipe.Service.Models.Navigation;
 using LudwigsRecipe.Service.Models.Recipe;
 using LudwigsRecipe.Service.Services.Recipe;
 using System.Web.Http;
@@ -16,6 +17,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 
 		[HttpGet]
 		[Route("api/Recipe/Overview")]
+		[CacheControl(MaxAge = 3600)]
 		public RecipeOverviewViewModel Overview(int count, int skip, string category, string subCategory)
 		{
 			return _recipeService.LoadRecipeOverview(count, skip, category, subCategory, true);
@@ -23,6 +25,7 @@ namespace LudwigRecipe.Api.Api.Recipe
 
 		[HttpGet]
 		[Route("api/Recipe/Detail/{id}")]
+		[CacheControl(MaxAge = 3600)]
 		public RecipeDetailViewModel Detail(int id)
 		{
 			bool isFriend = User.IsInRole("Friend");

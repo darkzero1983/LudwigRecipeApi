@@ -407,7 +407,8 @@ namespace LudwigsRecipe.Service.Services.Recipe
 				IngredientCount = model.IngredientCount,
 				Measurement = new MeasurementData() { Id = measurementRecipeId, Name = model.Measurement },
 				PreparationTime = model.PreparationTime,
-				WaitingTime = model.WaitingTime
+				WaitingTime = model.WaitingTime,
+				TeaserImageUrl = model.TeaserImageUrl
 			};
 			if (model.Id == 0)
 			{

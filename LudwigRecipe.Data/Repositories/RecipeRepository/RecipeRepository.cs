@@ -282,6 +282,7 @@ namespace LudwigsRecipe.Data.Repositories.RecipeRepository
 				dbRecipe.Measurement = measurement;
 				dbRecipe.PreparationTime = recipe.PreparationTime;
 				dbRecipe.WaitingTime = recipe.WaitingTime;
+				dbRecipe.TeaserImageUrl = recipe.TeaserImageUrl;
 				context.SaveChanges();
 			}
 		}

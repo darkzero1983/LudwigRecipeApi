@@ -1,4 +1,5 @@
-﻿using LudwigsRecipe.Service.Models.Navigation;
+﻿using LudwigRecipe.Api.Helper;
+using LudwigsRecipe.Service.Models.Navigation;
 using LudwigsRecipe.Service.Services.Navigation;
 using System.Web.Http;
 
@@ -15,6 +16,7 @@ namespace LudwigRecipe.Api.Controllers
 		
 		[HttpGet]
 		[Route("api/Navigation/Load")]
+		[CacheControl(MaxAge = 3600)]
 		public NavigationViewModel Load()
 		{
 			return _navigationService.LoadNavigation(true, false, false);
