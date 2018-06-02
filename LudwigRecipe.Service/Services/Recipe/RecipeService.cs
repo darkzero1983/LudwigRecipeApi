@@ -75,7 +75,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 				{
 					Id = recipe.Id,
 					Name = recipe.Name,
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
 					Url = recipe.Url
 				});
 			}
@@ -205,7 +205,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					Url = recipe.Url,
 					Description = recipe.Description,
 					PublishDate = recipe.PublishDate.ToString("MM.dd.yyyy"),
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl
 				});
 			}
 			return model;
@@ -225,7 +225,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					Description = recipe.Description,
 					Content = recipe.Content,
 					PublishDate = recipe.PublishDate,
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
 					IngredientCount = recipe.IngredientCount,
 					Measurement = new MeasurementViewModel() { Id = recipe.Measurement.Id, Name = recipe.Measurement.Name },
 					PreparationTime = recipe.PreparationTime,
@@ -297,7 +297,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 <ol class=""no-number default-color"">
 	<li><strong>Guten Appetit!</strong></li>
 </ol>",
-					TeaserImageUrl = "/media/LudwigsRezepte/default_teaser_image.png"
+					TeaserImageUrl = "/media/media/LudwigsRezepte/default_teaser_image.png"
 				};
 			}
 			IRecipeData recipe = _recipeRepository.LoadRecipe(id);
@@ -314,7 +314,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 					PublishMinute = recipe.PublishDate.Minute,
 					IsPublished = recipe.IsPublished,
 					IsOnlyForFriends = recipe.IsOnlyForFriends,
-					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
+					TeaserImageUrl = String.IsNullOrEmpty(recipe.TeaserImageUrl) ? "/media/media/LudwigsRezepte/default_teaser_image.png" : recipe.TeaserImageUrl,
 					IngredientCount = recipe.IngredientCount,
 					Measurement = (recipe.Measurement != null) ? recipe.Measurement.Name : "",
 					PreparationTime = recipe.PreparationTime,
