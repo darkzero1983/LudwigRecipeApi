@@ -450,7 +450,7 @@ namespace LudwigsRecipe.Service.Services.Recipe
 #if DEBUG
 				imageUrl = "/media/media/LudwigsRezepte/" + model.Id + "/teaser/" + newFileName;
 #else
-				imageUrl = "https://ludwigs-rezepte.de/media/LudwigsRezepte/" + model.Id + "/teaser/" + newFileName;
+				imageUrl = "/media//media/LudwigsRezepte/" + model.Id + "/teaser/" + newFileName;
 #endif
 
 				_recipeRepository.EditTeaserImage(model.Id, imageUrl);
