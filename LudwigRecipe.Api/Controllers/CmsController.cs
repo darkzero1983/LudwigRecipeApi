@@ -88,12 +88,12 @@ namespace LudwigRecipe.Api.Api.Recipe
 		public async Task<IHttpActionResult> UploadTeaserImage(string id)
 		{
 			var uploads = "";
-//#if Debug
+			#if DEBUG
 
-	//		uploads = "D:\\Dropbox\\Dokumente Peter\\Visual Studio\\ImageManager\\ImageManager.Web\\media\\LudwigsRezepte\\" + id + "\\";
-//#else
-			uploads = "C:\\DarkZero\\Dropbox\\DarkServer\\Webs\\ImageManager\\media\\LudwigsRezepte\\" + id + "\\";
-			//#endif
+			uploads = "D:\\Dropbox\\Dokumente Peter\\Visual Studio\\ImageManager\\ImageManager.Web\\media\\LudwigsRezepte\\" + id + "\\teaser\\";
+#else
+			uploads = "C:\\DarkZero\\Dropbox\\DarkServer\\Webs\\ImageManager\\media\\LudwigsRezepte\\" + id + "\\teaser\\";
+#endif
 
 			bool exists = System.IO.Directory.Exists(uploads);
 
